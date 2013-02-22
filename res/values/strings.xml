@@ -5,5 +5,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="app_id">133312576839682</string>
+    <string name="login_failed_dialog_title">Login failed</string>
+    <string name="ok_button">OK</string>
 
 </resources>
