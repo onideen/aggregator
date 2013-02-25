@@ -13,12 +13,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
+	private MainFragment mainFragment;
 	
+
 	private static final String applicationID = "133312576839682";
 	private static final String TAG = "MainActivity";
 	private static final String PENDING_REQUEST_BUNDLE_KEY = null;
@@ -28,18 +31,25 @@ public class MainActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		this.textViewResults = (TextView) findViewById(R.id.textViewResults);
+	    super.onCreate(savedInstanceState);
 
-		this.session = createSession();
-		Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
-		
-		doRequest();
+	    if (savedInstanceState == null) {
+	        // Add the fragment on initial activity setup
+	        mainFragment = new MainFragment();
+	        getSupportFragmentManager()
+	        .beginTransaction()
+	        .add(android.R.id.content, mainFragment)
+	        .commit();
+	    } else {
+	        // Or set the fragment from restored state info
+	        mainFragment = (MainFragment) getSupportFragmentManager()
+	        .findFragmentById(android.R.id.content);
+	    }
 	}
-
+/*
 	private void doRequest() {
 		if (this.session.isOpened()) {
+			textViewResults.setText("HELLI");
 			sendRequest();
 		} else {
 			StatusCallback callback = new StatusCallback() {
@@ -72,7 +82,7 @@ public class MainActivity extends Activity {
 	private void sendRequest() {
 		textViewResults.setText("HELLEDUSAN");
 
-		String[] requestIds = { "me/home" };
+		String[] requestIds = { "me" };
 
 		List<Request> requests = new ArrayList<Request>();
 		for (final String requestId : requestIds) {
@@ -126,6 +136,7 @@ public class MainActivity extends Activity {
 	 * 
 	 * @return the active session
 	 */
+/*
 	private Session createSession() {
 		Session activSession = Session.getActiveSession();
 		if (activSession == null || activSession.getState().isClosed()) {
@@ -134,5 +145,5 @@ public class MainActivity extends Activity {
 		}
 		return activSession;
 	}
-
+*/
 }
