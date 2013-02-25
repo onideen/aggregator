@@ -45,41 +45,10 @@ public class MainActivity extends FragmentActivity {
 	        mainFragment = (LogInFragment) getSupportFragmentManager()
 	        .findFragmentById(android.R.id.content);
 	    }
+	    
 	}
-/*
-	private void doRequest() {
-		if (this.session.isOpened()) {
-			textViewResults.setText("HELLI");
-			sendRequest();
-		} else {
-			StatusCallback callback = new StatusCallback() {
-				public void call(Session session, SessionState state,
-						Exception exception) {
-					Log.e(TAG, "Error: " + exception);
-					if (exception != null) {
-						new AlertDialog.Builder(MainActivity.this)
-								.setTitle(R.string.login_failed_dialog_title)
-								.setMessage(exception.getMessage())
-								.setPositiveButton(R.string.ok_button, null)
-								.show();
-						MainActivity.this.session = createSession();
-					}
-				}
-			};
-			pendingRequest = true;
-			this.session.openForRead(new Session.OpenRequest(this).setCallback(callback));
-		}
-
-	}
-
 	
-	 @Override
-	    protected void onSaveInstanceState(Bundle outState) {
-	        super.onSaveInstanceState(outState);
-
-	        outState.putBoolean(PENDING_REQUEST_BUNDLE_KEY, pendingRequest);
-	    }
-	private void sendRequest() {
+	 private void sendRequest() {
 		textViewResults.setText("HELLEDUSAN");
 
 		String[] requestIds = { "me" };
@@ -122,14 +91,6 @@ public class MainActivity extends FragmentActivity {
 
 	}
 
-	@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (this.session.onActivityResult(this, requestCode, resultCode, data) &&
-                pendingRequest &&
-                this.session.getState().isOpened()) {
-            sendRequest();
-        }
-    }
 	/**
 	 * Finds the active session, if active session does not exist or can no
 	 * longer be used for {@link Request} it creates a new session

@@ -17,6 +17,10 @@ import android.view.ViewGroup;
 
 public class LogInFragment extends Fragment {
 	
+	
+	/**
+	 * Sets the tag used for LogCat
+	 */
 	private static final String TAG = "LogInFragment";
 	
 	private UiLifecycleHelper uiHelper;
