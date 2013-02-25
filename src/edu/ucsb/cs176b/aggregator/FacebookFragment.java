@@ -15,13 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class LogInFragment extends Fragment {
+public class FacebookFragment extends Fragment {
 	
 	
 	/**
 	 * Sets the tag used for LogCat
 	 */
-	private static final String TAG = "LogInFragment";
+	private static final String TAG = "FacebookFragment";
 	
 	private UiLifecycleHelper uiHelper;
 	

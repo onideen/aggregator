@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity {
 
-	private LogInFragment mainFragment;
+	private FacebookFragment facebookFragment;
 	
 
 	private static final String applicationID = "133312576839682";
@@ -35,14 +35,14 @@ public class MainActivity extends FragmentActivity {
 
 	    if (savedInstanceState == null) {
 	        // Add the fragment on initial activity setup
-	        mainFragment = new LogInFragment();
+	        facebookFragment = new FacebookFragment();
 	        getSupportFragmentManager()
 	        .beginTransaction()
-	        .add(android.R.id.content, mainFragment)
+	        .add(android.R.id.content, facebookFragment)
 	        .commit();
 	    } else {
 	        // Or set the fragment from restored state info
-	        mainFragment = (LogInFragment) getSupportFragmentManager()
+	        facebookFragment = (FacebookFragment) getSupportFragmentManager()
 	        .findFragmentById(android.R.id.content);
 	    }
 	    
