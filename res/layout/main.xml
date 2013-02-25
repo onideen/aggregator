@@ -13,5 +13,20 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         />
-
+    
+    
+    <Button
+        android:id="@+id/buttonRequest"
+        android:layout_width="122dp"
+        android:layout_height="wrap_content"
+        android:text="@string/request" />
+    
+    
+    <TextView
+            android:id="@+id/resultsTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            />
+    
 </LinearLayout>

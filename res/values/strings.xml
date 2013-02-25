@@ -7,5 +7,9 @@
     <string name="app_id">133312576839682</string>
     <string name="login_failed_dialog_title">Login failed</string>
     <string name="ok_button">OK</string>
+    <string name="request">Get stream</string>
+    <string name="login">Login</string>
+    <string name="instructions">Login to create a link to fetch account data</string>
+    <string name="logout">Log out</string>
 
 </resources>
