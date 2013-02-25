@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity {
 
-	private MainFragment mainFragment;
+	private LogInFragment mainFragment;
 	
 
 	private static final String applicationID = "133312576839682";
@@ -35,14 +35,14 @@ public class MainActivity extends FragmentActivity {
 
 	    if (savedInstanceState == null) {
 	        // Add the fragment on initial activity setup
-	        mainFragment = new MainFragment();
+	        mainFragment = new LogInFragment();
 	        getSupportFragmentManager()
 	        .beginTransaction()
 	        .add(android.R.id.content, mainFragment)
 	        .commit();
 	    } else {
 	        // Or set the fragment from restored state info
-	        mainFragment = (MainFragment) getSupportFragmentManager()
+	        mainFragment = (LogInFragment) getSupportFragmentManager()
 	        .findFragmentById(android.R.id.content);
 	    }
 	}
