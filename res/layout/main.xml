@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/facebook_blue"
     android:orientation="vertical"
-    tools:context=".LogInFragment" >
+    tools:context=".FacebookFragment" >
 
     <com.facebook.widget.LoginButton
         android:id="@+id/authButton"

@@ -15,9 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class MainFragment extends Fragment {
+public class FacebookFragment extends Fragment {
 	
-	private static final String TAG = "MainFragment";
+	private static final String TAG = "LogInFragment";
 	
 	private UiLifecycleHelper uiHelper;
 	
@@ -88,7 +88,5 @@ public class MainFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		uiHelper.onSaveInstanceState(outState);
-	}
-	
-	
+	}	
 }
