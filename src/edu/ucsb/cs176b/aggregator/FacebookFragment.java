@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 public class FacebookFragment extends Fragment {
 	
-	private static final String TAG = "LogInFragment";
+	private static final String TAG = "FacebookFragment";
 	
 	private UiLifecycleHelper uiHelper;
 	
