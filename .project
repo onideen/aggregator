@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<< HEAD
 	<name>Scrumptious</name>
+=======
+	<name>aggregator</name>
+>>>>>>> 14ca4e0ddd9d03bd75516f247ddc4e3b4023a5f2
 	<comment></comment>
 	<projects>
 	</projects>
