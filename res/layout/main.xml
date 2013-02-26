@@ -21,11 +21,11 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-    <fragment android:name="com.facebook.scrumptious.SelectionFragment"
+    <fragment android:name="edu.ucsb.cs176b.aggregator.FeedFragment"
               android:id="@+id/selectionFragment"
               android:layout_width="match_parent"
               android:layout_height="match_parent" />
-    <fragment android:name="com.facebook.scrumptious.SplashFragment"
+    <fragment android:name="edu.ucsb.cs176b.aggregator.SplashFragment"
               android:id="@+id/splashFragment"
               android:layout_width="match_parent"
               android:layout_height="match_parent" />

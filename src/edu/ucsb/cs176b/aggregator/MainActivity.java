@@ -1,20 +1,4 @@
-/**
- * Copyright 2012 Facebook
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.facebook.scrumptious;
+package edu.ucsb.cs176b.aggregator;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,7 +15,7 @@ import com.facebook.UiLifecycleHelper;
 public class MainActivity extends FragmentActivity {
 
     private static final int SPLASH = 0;
-    private static final int SELECTION = 1;
+    private static final int FEED = 1;
     private static final int SETTINGS = 2;
     private static final int FRAGMENT_COUNT = SETTINGS +1;
 
@@ -57,7 +41,7 @@ public class MainActivity extends FragmentActivity {
 
         FragmentManager fm = getSupportFragmentManager();
         fragments[SPLASH] = fm.findFragmentById(R.id.splashFragment);
-        fragments[SELECTION] = fm.findFragmentById(R.id.selectionFragment);
+        fragments[FEED] = fm.findFragmentById(R.id.selectionFragment);
         fragments[SETTINGS] = fm.findFragmentById(R.id.userSettingsFragment);
 
         FragmentTransaction transaction = fm.beginTransaction();
@@ -106,7 +90,7 @@ public class MainActivity extends FragmentActivity {
 
         if (session != null && session.isOpened()) {
             // if the session is already open, try to show the selection fragment
-            showFragment(SELECTION, false);
+            showFragment(FEED, false);
         } else {
             // otherwise present the splash screen and ask the user to login.
             showFragment(SPLASH, false);
@@ -116,7 +100,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // only add the menu when the selection fragment is showing
-        if (fragments[SELECTION].isVisible()) {
+        if (fragments[FEED].isVisible()) {
             if (menu.size() == 0) {
                 settings = menu.add(R.string.settings);
             }
@@ -147,7 +131,7 @@ public class MainActivity extends FragmentActivity {
             // check for the OPENED state instead of session.isOpened() since for the
             // OPENED_TOKEN_UPDATED state, the selection fragment should already be showing.
             if (state.equals(SessionState.OPENED)) {
-                showFragment(SELECTION, false);
+                showFragment(FEED, false);
             } else if (state.isClosed()) {
                 showFragment(SPLASH, false);
             }
