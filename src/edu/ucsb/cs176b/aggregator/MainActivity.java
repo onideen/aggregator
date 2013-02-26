@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,153 +18,103 @@ import com.facebook.LoggingBehavior;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.Settings;
-import com.facebook.UiLifecycleHelper;
+public class MainActivity extends Activity {
+    private static final String URL_PREFIX_FRIENDS = "https://graph.facebook.com/me/home?access_token=";
 
-public class MainActivity extends FragmentActivity {
+    private TextView textInstructionsOrLink;
+    private Button buttonLoginLogout;
+    private Session.StatusCallback statusCallback = new SessionStatusCallback();
 
-	private static final int SPLASH = 0;
-	private static final int SELECTION = 1;
-	private static final int SETTINGS = 2;
-	private static final int FRAGMENT_COUNT = SETTINGS + 1;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity);
+        buttonLoginLogout = (Button)findViewById(R.id.buttonLoginLogout);
+        textInstructionsOrLink = (TextView)findViewById(R.id.instructionsOrLink);
 
-	private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
-	private MenuItem settings;
-	private boolean isResumed = false;
-	private UiLifecycleHelper uiHelper;
-	private Session.StatusCallback callback = new Session.StatusCallback() {
-		@Override
-		public void call(Session session, SessionState state,
-				Exception exception) {
-			onSessionStateChange(session, state, exception);
-		}
-	};
+        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+        
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        Session session = Session.getActiveSession();
+        if (session == null) {
+            if (savedInstanceState != null) {
+                session = Session.restoreSession(this, null, statusCallback, savedInstanceState);
+            }
+            if (session == null) {
+                session = new Session(this);
+            }
+            Session.setActiveSession(session);
+            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+                session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+            }
+        }
 
-		uiHelper = new UiLifecycleHelper(this, callback);
-		uiHelper.onCreate(savedInstanceState);
+        updateView();
+    }
 
-		setContentView(R.layout.main);
+    @Override
+    public void onStart() {
+        super.onStart();
+        Session.getActiveSession().addCallback(statusCallback);
+    }
 
-		FragmentManager fm = getSupportFragmentManager();
-		fragments[SPLASH] = fm.findFragmentById(R.id.splashFragment);
-		fragments[SELECTION] = fm.findFragmentById(R.id.selectionFragment);
-		fragments[SETTINGS] = fm.findFragmentById(R.id.userSettingsFragment);
+    @Override
+    public void onStop() {
+        super.onStop();
+        Session.getActiveSession().removeCallback(statusCallback);
+    }
 
-		FragmentTransaction transaction = fm.beginTransaction();
-		for (int i = 0; i < fragments.length; i++) {
-			transaction.hide(fragments[i]);
-		}
-		transaction.commit();
-	}
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		uiHelper.onResume();
-		isResumed = true;
-	}
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Session session = Session.getActiveSession();
+        Session.saveSession(session, outState);
+    }
 
-	@Override
-	public void onPause() {
-		super.onPause();
-		uiHelper.onPause();
-		isResumed = false;
-	}
+    private void updateView() {
+        Session session = Session.getActiveSession();
+        if (session.isOpened()) {
+            textInstructionsOrLink.setText(URL_PREFIX_FRIENDS + session.getAccessToken());
+            buttonLoginLogout.setText(R.string.logout);
+            buttonLoginLogout.setOnClickListener(new OnClickListener() {
+                public void onClick(View view) { onClickLogout(); }
+            });
+        } else {
+            textInstructionsOrLink.setText(R.string.instructions);
+            buttonLoginLogout.setText(R.string.login);
+            buttonLoginLogout.setOnClickListener(new OnClickListener() {
+                public void onClick(View view) { onClickLogin(); }
+            });
+        }
+    }
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		uiHelper.onActivityResult(requestCode, resultCode, data);
-	}
+    private void onClickLogin() {
+        Session session = Session.getActiveSession();
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(this, true, statusCallback);
+        }
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		uiHelper.onDestroy();
-	}
+    private void onClickLogout() {
+        Session session = Session.getActiveSession();
+        if (!session.isClosed()) {
+            session.closeAndClearTokenInformation();
+        }
+    }
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		uiHelper.onSaveInstanceState(outState);
-	}
-
-	@Override
-	protected void onResumeFragments() {
-		super.onResumeFragments();
-		Session session = Session.getActiveSession();
-
-		if (session != null && session.isOpened()) {
-			// if the session is already open, try to show the selection
-			// fragment
-			showFragment(SELECTION, false);
-		} else {
-			// otherwise present the splash screen and ask the user to login.
-			showFragment(SPLASH, false);
-		}
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		// only add the menu when the selection fragment is showing
-		if (fragments[SELECTION].isVisible()) {
-			if (menu.size() == 0) {
-				settings = menu.add(R.string.settings);
-			}
-			return true;
-		} else {
-			menu.clear();
-			settings = null;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.equals(settings)) {
-			showFragment(SETTINGS, true);
-			return true;
-		}
-		return false;
-	}
-
-	private void onSessionStateChange(Session session, SessionState state,
-			Exception exception) {
-		if (isResumed) {
-			FragmentManager manager = getSupportFragmentManager();
-			int backStackSize = manager.getBackStackEntryCount();
-			for (int i = 0; i < backStackSize; i++) {
-				manager.popBackStack();
-			}
-			// check for the OPENED state instead of session.isOpened() since
-			// for the
-			// OPENED_TOKEN_UPDATED state, the selection fragment should already
-			// be showing.
-			if (state.equals(SessionState.OPENED)) {
-				showFragment(SELECTION, false);
-			} else if (state.isClosed()) {
-				showFragment(SPLASH, false);
-			}
-		}
-	}
-
-	private void showFragment(int fragmentIndex, boolean addToBackStack) {
-		FragmentManager fm = getSupportFragmentManager();
-		FragmentTransaction transaction = fm.beginTransaction();
-		for (int i = 0; i < fragments.length; i++) {
-			if (i == fragmentIndex) {
-				transaction.show(fragments[i]);
-			} else {
-				transaction.hide(fragments[i]);
-			}
-		}
-		if (addToBackStack) {
-			transaction.addToBackStack(null);
-		}
-		transaction.commit();
-	}
+    private class SessionStatusCallback implements Session.StatusCallback {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+            updateView();
+        }
+    }
 
 }
