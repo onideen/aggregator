@@ -10,28 +10,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
         android:orientation="vertical"> 
-       <LinearLayout
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="20dp"
-           android:gravity="center_horizontal"
-           android:orientation="horizontal" >
-           <com.facebook.widget.ProfilePictureView
-               android:id="@+id/selection_profile_pic"
-               android:layout_height="wrap_content"
-               android:layout_width="wrap_content"
-               android:layout_gravity="center"
-               android:gravity="center_horizontal"
-               facebook:preset_size="small" />
-           <TextView
-               android:id="@+id/selection_user_name"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="10dp"
-               android:layout_gravity="center"
-               android:textColor="#333"
-               android:textSize="18sp" />
-       </LinearLayout>
 
 		<TextView
                android:id="@+id/request"

@@ -26,8 +26,6 @@ public class FeedFragment extends Fragment {
     private static final int REAUTH_ACTIVITY_CODE = 100;
 
     private ProgressDialog progressDialog;
-    private ProfilePictureView profilePictureView;
-    private TextView userNameView;
     private TextView requestResponse;
     
     private UiLifecycleHelper uiHelper;
@@ -56,12 +54,7 @@ public class FeedFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.feed, container, false);
 
-        profilePictureView = (ProfilePictureView) view.findViewById(R.id.selection_profile_pic);
-        profilePictureView.setCropped(true);
-        userNameView = (TextView) view.findViewById(R.id.selection_user_name);
         requestResponse = (TextView) view.findViewById(R.id.request);
-
-        
         init(savedInstanceState);
 
         return view;
@@ -96,7 +89,6 @@ public class FeedFragment extends Fragment {
 
     private void onSessionStateChange(final Session session, SessionState state, Exception exception) {
         if (session != null && session.isOpened()) {
-            //makeMeRequest(session);
             makeFacebookFeedRequest(session);
         }
     }
@@ -127,28 +119,6 @@ public class FeedFragment extends Fragment {
 		request.executeAsync();
 	}
 
-    /**
-     * Gets profilepicture and userName from Facebook
-     * 
-     */
-	private void makeMeRequest(final Session session) {
-        Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-            @Override
-            public void onCompleted(GraphUser user, Response response) {
-                if (session == Session.getActiveSession()) {
-                    if (user != null) {
-                        profilePictureView.setProfileId(user.getId());
-                        userNameView.setText(user.getName());
-                    }
-                }
-                if (response.getError() != null) {
-                    handleError(response.getError());
-                }
-            }
-        });
-        request.executeAsync();
-
-    }
 
     /**
      * Resets the view to the initial defaults.
