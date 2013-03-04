@@ -1,9 +1,11 @@
 package edu.ucsb.cs176b.aggregator;
 
+import java.io.InputStream;
 import java.util.Date;
 
 import android.graphics.Picture;
 //import android.text.GetChars;
+import android.net.Uri;
 
 public abstract class Post {
 
@@ -19,21 +21,21 @@ public abstract class Post {
 	/**
 	 * The user that posted the post and the owner of the wall it was posted on. 
 	 */
+	
+	private String userId;
+	protected void setUserId(String userId){
+		this.userId = userId;
+	}
+	public String getUserId(){
+		return userId;
+	}
+	
 	private String title;
 	protected void setTitle(String title){
 		this.title = title;
 	}
 	public String getTitle(){
 		return title;
-	}
-	
-	private Picture profilePic;
-	protected void setProfilePic(Picture profilePic){
-		this.profilePic = profilePic;
-		
-	}
-	public Picture getProfilePic(){
-		return profilePic;
 	}
 	
 	/**
@@ -61,14 +63,7 @@ public abstract class Post {
 	}
 	
 
-	private Picture picture;
-	protected void setPicture(Picture picture){
-		this.picture = picture;
-		
-	}
-	public Picture getPicture(){
-		return picture;
-	}
+
 	/**
 	 * 
 	 */
@@ -88,6 +83,18 @@ public abstract class Post {
 	public int getCountComment(){
 		return countComment;
 	}
+	
+//if picture ex post 126979200807258_134911490014029
+	private String post_picture;
+	protected void setPicture(String picture){
+//		this.post_picture = Uri.parse(picture);
+		this.post_picture = picture;
+		
+	}
+	public String getPicture(){
+		return post_picture;
+	}
+	
 	
 	//public void setTitle(String t) {
 	//	title = t;

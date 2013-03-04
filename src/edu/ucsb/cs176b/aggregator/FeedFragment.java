@@ -1,5 +1,11 @@
 package edu.ucsb.cs176b.aggregator;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -7,6 +13,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Picture;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +28,8 @@ import android.widget.*;
 import com.facebook.*;
 import com.facebook.model.*;
 import com.facebook.widget.ProfilePictureView;
+
+
 
 
 /**
@@ -36,6 +47,8 @@ public class FeedFragment extends Fragment {
     private TextView countComment;
     private TextView countLikes;
     private TextView date;
+    private ProfilePictureView profilePictureView;
+    private ImageView imageView;
 
     
     private ProgressDialog progressDialog;
@@ -65,7 +78,9 @@ public class FeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.feed, container, false);
-
+        profilePictureView = (ProfilePictureView) view.findViewById(R.id.selection_profile_pic);
+        profilePictureView.setCropped(true);
+        imageView = (ImageView) view.findViewById(R.id.post_picture);
         postTitle = (TextView) view.findViewById(R.id.post_title);
         postMessage = (TextView) view.findViewById(R.id.post_message);
         countLikes = (TextView) view.findViewById(R.id.countLikes);
@@ -115,7 +130,7 @@ public class FeedFragment extends Fragment {
         progressDialog = ProgressDialog.show(getActivity(), "", getActivity().getResources().getString(R.string.progress_dialog_text), true);
 
     	//Request request = Request.newGraphPathRequest(session, "me/home/", new Request.Callback() {
-    	Request request = Request.newGraphPathRequest(session, "576520092360758_594046270608140", new Request.Callback() {
+    	Request request = Request.newGraphPathRequest(session, "126979200807258_134911490014029", new Request.Callback() {
 			@Override
 			public void onCompleted(Response response) {
 				GraphObject newsFeed = response.getGraphObject();
@@ -126,6 +141,7 @@ public class FeedFragment extends Fragment {
 				}
 				if (session == Session.getActiveSession()) {
 					//JSONObject obj = newsFeed.getInnerJSONObject();
+					
 					
 					
 					 try{  
@@ -158,7 +174,20 @@ public class FeedFragment extends Fragment {
 
 
     private void updateView() {
+    	profilePictureView.setProfileId(post.getUserId());
     	postTitle.setText(post.getTitle());
+    	
+    	Bitmap bitmap;
+		try {
+			bitmap = BitmapFactory.decodeStream((InputStream)new URL(post.getPicture()).getContent());
+			imageView.setImageBitmap(bitmap);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			Log.e(TAG, e.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Log.e(TAG, e.toString());
+		}
     	postMessage.setText(post.getMessage());
     	countComment.setText(post.getCountComment() + "");
     	countLikes.setText(post.getCountLikes() + "");
