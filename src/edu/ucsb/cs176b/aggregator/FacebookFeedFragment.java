@@ -1,5 +1,8 @@
 package edu.ucsb.cs176b.aggregator;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -7,9 +10,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.*;
 import com.facebook.*;
 import com.facebook.model.*;
@@ -20,13 +25,20 @@ import com.facebook.widget.ProfilePictureView;
  * Fragment that represents the feed for aggregation
  */
 public class FacebookFeedFragment extends Fragment {
+	private String TAG = "FeedFragment";
 
     private static final Uri M_FACEBOOK_URL = Uri.parse("http://m.facebook.com");
 
     private static final int REAUTH_ACTIVITY_CODE = 100;
+    Post post;
+    private TextView postTitle;
+    private TextView postMessage;
+    private TextView countComment;
+    private TextView countLikes;
+    private TextView date;
 
+    
     private ProgressDialog progressDialog;
-    private TextView requestResponse;
     
     private UiLifecycleHelper uiHelper;
     private Session.StatusCallback callback = new Session.StatusCallback() {
@@ -54,8 +66,13 @@ public class FacebookFeedFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.feed, container, false);
 
-        requestResponse = (TextView) view.findViewById(R.id.request);
+        postTitle = (TextView) view.findViewById(R.id.post_title);
+        postMessage = (TextView) view.findViewById(R.id.post_message);
+        countLikes = (TextView) view.findViewById(R.id.countLikes);
+        countComment = (TextView) view.findViewById(R.id.countComment);
+        //date =(TextView) view.findViewById(R.id.posted_on);
         init(savedInstanceState);
+        
 
         return view;
     }
@@ -97,8 +114,8 @@ public class FacebookFeedFragment extends Fragment {
         // Show a progress dialog because sometimes the requests can take a while.
         progressDialog = ProgressDialog.show(getActivity(), "", getActivity().getResources().getString(R.string.progress_dialog_text), true);
 
-    	Request request = Request.newGraphPathRequest(session, "me/home", new Request.Callback() {
-		
+    	//Request request = Request.newGraphPathRequest(session, "me/home/", new Request.Callback() {
+    	Request request = Request.newGraphPathRequest(session, "576520092360758_594046270608140", new Request.Callback() {
 			@Override
 			public void onCompleted(Response response) {
 				GraphObject newsFeed = response.getGraphObject();
@@ -108,19 +125,47 @@ public class FacebookFeedFragment extends Fragment {
 					progressDialog = null;
 				}
 				if (session == Session.getActiveSession()) {
-					s += newsFeed.getProperty("data");
-					requestResponse.setText(s);
+					//JSONObject obj = newsFeed.getInnerJSONObject();
+					
+					
+					 try{  
+						 s += newsFeed.getProperty("data"); // elements in news feed 
+//						 JSONArray jsonArray = new JSONArray(s);
+//				      Log.i(TAG, "Number of entries " + jsonArray.length());
+				      for (int i = 0; i < 1; i++) {
+//				    	  Post post = new FaceBookPost( jsonArray.getJSONObject(i));
+				    	  post = new FaceBookPost( newsFeed.getInnerJSONObject());
+					        Log.i(TAG, i + "");
+				      }
+					
+					 }
+					 catch (Exception e) {
+					     Log.wtf(TAG, e);
+						 e.printStackTrace();
+					    }
+					
+					
+					//requestResponse.setText(s);
 				}		              
 				if (response.getError() != null) {
                     handleError(response.getError());
                 }
 			}
 		});
-		request.executeAsync();
+		request.executeAndWait();
+		updateView();
 	}
 
 
-    /**
+    private void updateView() {
+    	postTitle.setText(post.getTitle());
+    	postMessage.setText(post.getMessage());
+    	countComment.setText(post.getCountComment() + "");
+    	countLikes.setText(post.getCountLikes() + "");
+    	//date.setText(post.getPosted_on().toString());
+	}
+
+	/**
      * Resets the view to the initial defaults.
      */
     private void init(Bundle savedInstanceState) {

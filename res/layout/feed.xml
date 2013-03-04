@@ -12,11 +12,35 @@
         android:orientation="vertical"> 
 
 		<TextView
-               android:id="@+id/request"
+               android:id="@+id/post_title"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:textColor="#333"
                android:textSize="18sp" />
+		<TextView
+               android:id="@+id/post_message"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="#333"
+               android:textSize="18sp" />
+		<TextView
+               android:id="@+id/countLikes"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="#333"
+               android:textSize="18sp" />
+		<TextView
+               android:id="@+id/countComment"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="#333"
+               android:textSize="18sp" />
+		<TextView
+               android:id="@+id/posted_on"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="#333"
+               android:textSize="18sp" /> 
 	</LinearLayout>
        
 
