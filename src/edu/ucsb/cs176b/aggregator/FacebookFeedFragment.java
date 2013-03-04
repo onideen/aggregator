@@ -35,7 +35,7 @@ import com.facebook.widget.ProfilePictureView;
 /**
  * Fragment that represents the feed for aggregation
  */
-public class FeedFragment extends Fragment {
+public class FacebookFeedFragment extends Fragment {
 	private String TAG = "FeedFragment";
 
     private static final Uri M_FACEBOOK_URL = Uri.parse("http://m.facebook.com");
