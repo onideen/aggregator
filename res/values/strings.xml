@@ -20,5 +20,7 @@
     <string name="error_server">The server is busy, please retry later.</string>
     <string name="error_bad_request">An error occurred, please contact the developer with the following message: %1$s</string>
     <string name="error_unknown">An unknown error occurred, please contact the developer with the following message: %1$s</string>
-
+    <string name="likeImage">Likes:</string>
+	<string name="post_picture">Image can not be displayed</string>
+	<string name="commentImg">Comments:</string>
 </resources>

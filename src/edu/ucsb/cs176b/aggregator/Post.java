@@ -53,13 +53,13 @@ public abstract class Post {
 	/**
 	 * The time the post was posted
 	 */
-	private Date posted_on;
-	protected void setPosted_on(Date date){
-		this.posted_on = date;
+	private String updatedTime;
+	protected void setUpdatedTime(String updatedTime){
+		this.updatedTime = updatedTime;
 		
 	}
-	public Date getPosted_on(){
-		return posted_on;
+	public String getUpdatedTime(){
+		return updatedTime;
 	}
 	
 
@@ -95,8 +95,4 @@ public abstract class Post {
 		return post_picture;
 	}
 	
-	
-	//public void setTitle(String t) {
-	//	title = t;
-	//}
 }

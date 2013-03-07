@@ -21,6 +21,7 @@ public class FaceBookPost extends Post {
 		String message = jsonObject.getString("message");
 		int countLikes = jsonObject.getJSONObject("likes").getInt("count"); 
 		int countComment = jsonObject.getJSONObject("comments").getInt("count"); 
+		String updatedTime = jsonObject.getString("created_time");
 		
 		
 		setTitle(name);
@@ -29,6 +30,7 @@ public class FaceBookPost extends Post {
 		setCountLikes(countLikes);
 		setCountCommet(countComment); 
 		setPicture(post_picture);
+		setUpdatedTime(updatedTime);
 		
 		Log.i(TAG, postId);
 		Log.i(TAG, userId + "");
@@ -36,7 +38,8 @@ public class FaceBookPost extends Post {
 		Log.i(TAG, message);
 		Log.i(TAG, countLikes + "");
 		Log.i(TAG, countComment + "");
-//		Log.i(TAG, post_picture);
+		Log.i(TAG, post_picture);
+		Log.i(TAG, updatedTime);
 		// TODO Auto-generated constructor stub
 	}
 
