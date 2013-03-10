@@ -1,37 +1,65 @@
 package edu.ucsb.cs176b.aggregator;
 
+import java.io.InputStream;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.graphics.Picture;
 import android.util.Log;
 
 public class FaceBookPost extends Post {
 
 	private final String TAG = "FaceBookPost";
-	
-	
-	public FaceBookPost(JSONObject jsonObject) throws JSONException {
-		long personId = jsonObject.getJSONObject("from").getLong("id");
-		String postId = jsonObject.getString("id"); 
-		String name = jsonObject.getJSONObject("from").getString("name"); 
-		String message = jsonObject.getString("message");
-		int countLikes = jsonObject.getJSONObject("likes").getInt("count"); 
-		int countComment = jsonObject.getJSONObject("comments").getInt("count"); 
+
+	public static Post getPost(JSONObject jsonObject) throws JSONException {
+		String type = jsonObject.getString("type");
+		if (!type.equals("status") && !type.equals("photo")) {
+			return new FaceBookPost(jsonObject);
+		}
 		
-		
-		setTitle(name);
-		
-		setMessage(message);
-		setCountLikes(countLikes);
-		setCountCommet(countComment); 
-		
-		Log.i(TAG, postId);
-		Log.i(TAG, personId + "");
-		Log.i(TAG, name);
-		Log.i(TAG, message);
-		Log.i(TAG, countLikes + "");
-		Log.i(TAG, countComment + "");
-		// TODO Auto-generated constructor stub
+		return null;
 	}
 
+	public FaceBookPost(JSONObject jsonObject) throws JSONException {
+		// hent in post type
+
+		String userId = jsonObject.getJSONObject("from").getString("id");
+		String postId = jsonObject.getString("id");
+		String name = jsonObject.getJSONObject("from").getString("name");
+		int countLikes = jsonObject.getJSONObject("likes").getInt("count");
+		int countComment = jsonObject.getJSONObject("comments").getInt("count");
+		String updatedTime = jsonObject.getString("created_time");
+
+		try {
+
+			setPicture(jsonObject.getString("picture"));
+
+		} catch (Exception e) {
+			setPicture(null);
+		}
+
+		try {
+			setMessage(jsonObject.getString("message"));
+		} catch (Exception e) {
+			setMessage(null);
+		}
+
+		setTitle(name);
+		setUserId(userId);
+		setCountLikes(countLikes);
+		setCountCommet(countComment);
+		setUpdatedTime(updatedTime);
+
+		Log.i(TAG, postId);
+		Log.i(TAG, userId + "");
+		Log.i(TAG, name);
+		// Log.i(TAG, message);
+		Log.i(TAG, countLikes + "");
+		Log.i(TAG, countComment + "");
+		// Log.i(TAG, post_picture);
+		Log.i(TAG, updatedTime);
+		// TODO Auto-generated constructor stub
+
+	}
 }
