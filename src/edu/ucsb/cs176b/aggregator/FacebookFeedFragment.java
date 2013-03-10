@@ -157,7 +157,9 @@ public class FacebookFeedFragment extends Fragment {
 						JSONArray jsonArray = new JSONArray(s);//
 						Log.i(TAG, "Number of entries " + jsonArray.length());
 						for (int i = 0; i < 7; i++) {
-							post = new FaceBookPost( jsonArray.getJSONObject(i));//
+							Post tmpPost = FaceBookPost.getPost(jsonArray.getJSONObject(i));//
+							post = tmpPost != null ? tmpPost : post;
+							
 							//post = new FaceBookPost( newsFeed.getInnerJSONObject());
 							Log.i(TAG, i + "");
 						}
@@ -176,7 +178,7 @@ public class FacebookFeedFragment extends Fragment {
 				}
 			}
 		});
-		request.executeAsync();
+		request.executeAndWait();
 		updateView();
 	}
 
