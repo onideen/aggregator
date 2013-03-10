@@ -63,6 +63,8 @@ public class FacebookFeedFragment extends Fragment {
 		}
 	};
 
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -155,7 +157,7 @@ public class FacebookFeedFragment extends Fragment {
 						s += newsFeed.getProperty("data"); // elements in news feed 
 						JSONArray jsonArray = new JSONArray(s);//
 						Log.i(TAG, "Number of entries " + jsonArray.length());
-						for (int i = 0; i < 7; i++) {
+						for (int i = 0; i < 10; i++) {
 							Post tmpPost = FaceBookPost.getPost(jsonArray.getJSONObject(i));//
 							post = tmpPost != null ? tmpPost : post;
 							
