@@ -46,7 +46,7 @@ public class TwitterFeedFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+/*
 		Log.i(TAG, "Kom hit");
 		try {
 			// The factory instance is re-useable and thread safe.
@@ -82,7 +82,7 @@ public class TwitterFeedFragment extends Fragment {
 			// TODO Auto-generated catch block
 			Log.e(TAG, e.toString());
 		}
-		/*
+		
 */
 	}
 
