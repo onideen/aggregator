@@ -16,8 +16,6 @@ public abstract class Post {
 	 */
 	
 	
-	
-	
 	/**
 	 * The user that posted the post and the owner of the wall it was posted on. 
 	 */
@@ -62,7 +60,6 @@ public abstract class Post {
 		return updatedTime;
 	}
 	
-
 
 	/**
 	 * 

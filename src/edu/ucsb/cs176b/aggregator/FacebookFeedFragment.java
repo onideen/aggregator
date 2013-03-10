@@ -135,11 +135,10 @@ public class FacebookFeedFragment extends Fragment {
 		// Show a progress dialog because sometimes the requests can take a while.
 		progressDialog = ProgressDialog.show(getActivity(), "", getActivity().getResources().getString(R.string.progress_dialog_text), true);
 
-		//Request request = Request.newGraphPathRequest(session, "me/home/", new Request.Callback() {
-		Request request = Request.newGraphPathRequest(session, "681835202_10152622573290203", new Request.Callback() {
-			// tror vi må først ta inn data, så plukke ut hver id. for så å prosessere hver post. 
-			// tror vi kan bruke android:entries for å displaye alle postene. 
-			
+		Request request = Request.newGraphPathRequest(session, "me/home/", new Request.Callback() { //
+			//		Request request = Request.newGraphPathRequest(session, "681835202_10152622573290203", new Request.Callback() {
+
+
 			@Override
 			public void onCompleted(Response response) {
 				GraphObject newsFeed = response.getGraphObject();
@@ -149,17 +148,17 @@ public class FacebookFeedFragment extends Fragment {
 					progressDialog = null;
 				}
 				if (session == Session.getActiveSession()) {
-					//JSONObject obj = newsFeed.getInnerJSONObject();
+					JSONObject obj = newsFeed.getInnerJSONObject();//
 
 
 
 					try{  
 						s += newsFeed.getProperty("data"); // elements in news feed 
-						//						 JSONArray jsonArray = new JSONArray(s);
-						//				      Log.i(TAG, "Number of entries " + jsonArray.length());
-						for (int i = 0; i < 1; i++) {
-							//				    	  Post post = new FaceBookPost( jsonArray.getJSONObject(i));
-							post = new FaceBookPost( newsFeed.getInnerJSONObject());
+						JSONArray jsonArray = new JSONArray(s);//
+						Log.i(TAG, "Number of entries " + jsonArray.length());
+						for (int i = 0; i < 7; i++) {
+							post = new FaceBookPost( jsonArray.getJSONObject(i));//
+							//post = new FaceBookPost( newsFeed.getInnerJSONObject());
 							Log.i(TAG, i + "");
 						}
 
@@ -177,7 +176,7 @@ public class FacebookFeedFragment extends Fragment {
 				}
 			}
 		});
-		request.executeAndWait();
+		request.executeAsync();
 		updateView();
 	}
 
@@ -187,16 +186,18 @@ public class FacebookFeedFragment extends Fragment {
 		postTitle.setText(post.getTitle());
 
 		Bitmap bitmap;
-		try {
-			bitmap = BitmapFactory.decodeStream((InputStream)new URL(post.getPicture()).getContent());
-			post_picture.setImageBitmap(bitmap);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			Log.e(TAG, e.toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			Log.e(TAG, e.toString());
-		}
+		//if(!post.getPicture().equals(null)){
+			try {
+				bitmap = BitmapFactory.decodeStream((InputStream)new URL(post.getPicture()).getContent());
+				post_picture.setImageBitmap(bitmap);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				Log.e(TAG, e.toString());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				Log.e(TAG, e.toString());
+			}
+		//}
 		postMessage.setText(post.getMessage());
 		countComment.setText(post.getCountComment() + "");
 		countLikes.setText(post.getCountLikes() + "");
@@ -210,7 +211,7 @@ public class FacebookFeedFragment extends Fragment {
 
 		Session session = Session.getActiveSession();
 		if (session != null && session.isOpened()) {
-			//            makeMeRequest(session);
+			//makeMeRequest(session);
 			makeFacebookFeedRequest(session);
 		}
 	}
