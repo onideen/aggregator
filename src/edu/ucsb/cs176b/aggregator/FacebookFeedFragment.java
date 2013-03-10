@@ -68,7 +68,7 @@ public class FacebookFeedFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		uiHelper = new UiLifecycleHelper(getActivity(), callback);
 		uiHelper.onCreate(savedInstanceState);
-		//setContentView(); kan dette v¾re en l¿sning pŒ display problemet? 
+		//setContentView(); kan dette vï¿½re en lï¿½sning pï¿½ display problemet? 
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package edu.ucsb.cs176b.aggregator;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -173,5 +174,19 @@ public class MainActivity extends FragmentActivity {
 			transaction.addToBackStack(null);
 		}
 		transaction.commit();
+	}
+	
+	
+	protected void onNewIntent(Intent intent) { 
+	    super.onNewIntent(intent); 
+	    //get the retrieved data 
+	    Uri twitURI = intent.getData(); 
+	    //make sure the url is correct 
+	    if(twitURI!=null && twitURI.toString().startsWith(TwitterFeedFragment.TWIT_URL)) 
+	    { 
+	        //is verifcation - get the returned data 
+	        String oaVerifier = twitURI.getQueryParameter("oauth_verifier"); 
+	  
+	    } 
 	}
 }
