@@ -41,7 +41,6 @@
 
         <ImageView
             android:id="@+id/post_picture"
-            android:visibility="gone"
             android:layout_width="80pt"
             android:layout_height="80pt"
             android:layout_gravity="left"

@@ -44,8 +44,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		TextView postMessage = (TextView) postView.findViewById(R.id.post_message);
 		TextView countLikes = (TextView) postView.findViewById(R.id.count_likes);
 		TextView countComment = (TextView) postView.findViewById(R.id.count_comments);
-		ImageView likeImage = (ImageView) postView.findViewById(R.id.like_image);
-		ImageView commentImage = (ImageView) postView.findViewById(R.id.comment_img);
 		TextView updatedTime = (TextView) postView.findViewById(R.id.updatedTime);
 
 		profilePictureView.setCropped(true);
@@ -57,11 +55,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			Log.i(TAG, "Downloading: " + post.getImageUrl());
 			post_picture.setTag(post.getImageUrl());
 			post_picture.setVisibility(View.VISIBLE);
-			new DownloadImageTask().execute(post_picture);
+			new DownloadImageTask(post_picture).execute();
 		}
 		else {
 			Log.i(TAG, "No image... " + post.getTitle());
-			
+			post_picture.setVisibility(View.GONE);
 		}
 		postMessage.setText(post.getMessage());
 		countComment.setText(post.getCountComment() + "");

@@ -10,22 +10,39 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 public class DownloadImageTask extends AsyncTask<ImageView, Void, Bitmap> {
 
 	private static final String TAG = "DownloadImageTask";
-	ImageView imageView = null;
+	private ImageView imageView = null;
+	private String path;
+	
+	
+	public DownloadImageTask(ImageView imageView) {
+		this.imageView = imageView;
+		path = imageView.getTag().toString();
+	}
 	
 	@Override
 	protected Bitmap doInBackground(ImageView... imageViews) {
-		imageView = imageViews[0];
-		return downloadImage((String)(imageView.getTag()));
+		return downloadImage(imageView.getTag().toString());
 	}
 
 	@Override
 	protected void onPostExecute(Bitmap result) {
-		imageView.setImageBitmap(result);
+	
+		if (!imageView.getTag().toString().equals(path)) {
+			return;
+		}
+		
+		if (result != null && imageView != null){
+			imageView.setImageBitmap(result);
+			imageView.setVisibility(View.VISIBLE);
+		} else {
+			imageView.setVisibility(View.GONE);
+		}
 	}
 	
 	private Bitmap downloadImage(String url) {
