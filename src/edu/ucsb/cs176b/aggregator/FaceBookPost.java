@@ -27,12 +27,39 @@ public class FaceBookPost extends Post {
 
 		try {
 			setUserId(jsonObject.getJSONObject("from").getString("id"));
+		} catch (JSONException e1) {
+			Log.e(TAG, e1.toString());
+		}
+		try {
 			setTitle(jsonObject.getJSONObject("from").getString("name"));
+		} catch (JSONException e1) {
+			Log.e(TAG, e1.toString());
+		}
+		try {
 			setCountCommet(jsonObject.getJSONObject("comments").getInt("count"));
+		} catch (JSONException e1) {
+			Log.e(TAG, e1.toString());
+		}
+
+		try{
 			setCountLikes(jsonObject.getJSONObject("likes").getInt("count"));
-			setPicture(jsonObject.getString("picture"));
+		} catch (JSONException e1) {
+			Log.e(TAG, e1.toString());
+		}
+
+		try {
 			setMessage(jsonObject.getString("message"));
+		} catch (JSONException e1) {
+			Log.e(TAG, e1.toString());
+		}
+
+		try {
 			setUpdatedTime(jsonObject.getString("created_time"));
+		} catch (JSONException e1) {
+			Log.e(TAG, e1.toString());
+		}
+		try{
+			setPicture(jsonObject.getString("picture"));
 		} catch (JSONException e1) {
 			Log.e(TAG, e1.toString());
 		}

@@ -1,16 +1,10 @@
 package edu.ucsb.cs176b.aggregator;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import com.facebook.widget.ProfilePictureView;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +54,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		postTitle.setText(post.getTitle());
 
 		if (post.getImageUrl() != null){
-			
+			Log.i(TAG, "Downloading: " + post.getImageUrl());
 			post_picture.setTag(post.getImageUrl());
 			new DownloadImageTask().execute(post_picture);
 		}
