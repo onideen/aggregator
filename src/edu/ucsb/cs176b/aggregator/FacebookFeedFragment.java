@@ -157,7 +157,7 @@ public class FacebookFeedFragment extends Fragment {
 						s += newsFeed.getProperty("data"); // elements in news feed 
 						JSONArray jsonArray = new JSONArray(s);//
 						Log.i(TAG, "Number of entries " + jsonArray.length());
-						for (int i = 0; i < 10; i++) {
+						for (int i = 0; i < 25; i++) {
 							Post tmpPost = FaceBookPost.getPost(jsonArray.getJSONObject(i));//
 							post = tmpPost != null ? tmpPost : post;
 							
@@ -185,26 +185,30 @@ public class FacebookFeedFragment extends Fragment {
 
 
 	private void updateView() {
-		profilePictureView.setProfileId(post.getUserId());
-		postTitle.setText(post.getTitle());
-
-		Bitmap bitmap;
-		//if(!post.getPicture().equals(null)){
-			try {
-				bitmap = BitmapFactory.decodeStream((InputStream)new URL(post.getPicture()).getContent());
-				post_picture.setImageBitmap(bitmap);
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				Log.e(TAG, e.toString());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				Log.e(TAG, e.toString());
-			}
-		//}
-		postMessage.setText(post.getMessage());
-		countComment.setText(post.getCountComment() + "");
-		countLikes.setText(post.getCountLikes() + "");
-		updatedTime.setText(post.getUpdatedTime());
+		if (post != null) {
+			
+			Log.i(TAG, "USerid: " + post.getUserId());
+			profilePictureView.setProfileId(post.getUserId());
+			postTitle.setText(post.getTitle());
+	
+			Bitmap bitmap;
+			//if(!post.getPicture().equals(null)){
+				try {
+					bitmap = BitmapFactory.decodeStream((InputStream)new URL(post.getPicture()).getContent());
+					post_picture.setImageBitmap(bitmap);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					Log.e(TAG, e.toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					Log.e(TAG, e.toString());
+				}
+			//}
+			postMessage.setText(post.getMessage());
+			countComment.setText(post.getCountComment() + "");
+			countLikes.setText(post.getCountLikes() + "");
+			updatedTime.setText(post.getUpdatedTime());
+		}
 	}
 
 	/**
@@ -216,7 +220,7 @@ public class FacebookFeedFragment extends Fragment {
 		if (session != null && session.isOpened()) {
 			//makeMeRequest(session);
 			makeFacebookFeedRequest(session);
-		}
+	}
 	}
 
 

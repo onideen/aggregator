@@ -14,7 +14,7 @@ public class FaceBookPost extends Post {
 
 	public static Post getPost(JSONObject jsonObject) throws JSONException {
 		String type = jsonObject.getString("type");
-		if (!type.equals("status") && !type.equals("photo")) {
+		if (type.equals("status") || type.equals("photo")) {
 			return new FaceBookPost(jsonObject);
 		}
 		
@@ -22,15 +22,19 @@ public class FaceBookPost extends Post {
 	}
 
 	public FaceBookPost(JSONObject jsonObject) throws JSONException {
-		// hent in post type
-
+		
 		String userId = jsonObject.getJSONObject("from").getString("id");
 		String postId = jsonObject.getString("id");
 		String name = jsonObject.getJSONObject("from").getString("name");
-		int countLikes = jsonObject.getJSONObject("likes").getInt("count");
+				
 		int countComment = jsonObject.getJSONObject("comments").getInt("count");
 		String updatedTime = jsonObject.getString("created_time");
 
+		try {
+			setCountLikes(jsonObject.getJSONObject("likes").getInt("count"));
+		}catch (JSONException e){
+			Log.e(TAG, "Likes not found: " + jsonObject.getString("type"));
+		}
 		try {
 
 			setPicture(jsonObject.getString("picture"));
@@ -47,7 +51,7 @@ public class FaceBookPost extends Post {
 
 		setTitle(name);
 		setUserId(userId);
-		setCountLikes(countLikes);
+//		setCountLikes(countLikes);
 		setCountCommet(countComment);
 		setUpdatedTime(updatedTime);
 
@@ -55,7 +59,7 @@ public class FaceBookPost extends Post {
 		Log.i(TAG, userId + "");
 		Log.i(TAG, name);
 		// Log.i(TAG, message);
-		Log.i(TAG, countLikes + "");
+//		Log.i(TAG, countLikes + "");
 		Log.i(TAG, countComment + "");
 		// Log.i(TAG, post_picture);
 		Log.i(TAG, updatedTime);

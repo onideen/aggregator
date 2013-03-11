@@ -36,7 +36,7 @@ import com.facebook.widget.ProfilePictureView;
  * Fragment that represents the feed for aggregation
  */
 public class TwitterFeedFragment extends Fragment {
-
+/*
 	private static final String TWITTER_CONSUMER_KEY = "m2X7d6mzJnrkZeOjysfMw";
 	private static final String TWITTER_CONSUMER_SECRET = "eEwPHKfSu5VomMLxlSFi6bsvoWLJLKf2GeaSZjrOCt0";
 	public final static String TWIT_URL = "aggregator:///"; 
@@ -47,10 +47,15 @@ public class TwitterFeedFragment extends Fragment {
 	private Button btnLoginTwitter;
 	private Twitter twitter;
 	private RequestToken requestToken;
-
+*/
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.twitterfeed, container, false);
+		return view;
+
+	}
+	/*	
 		if(twitterPrefs.getString("user_token", null)==null) { 
 			View view = inflater.inflate(R.layout.twitterfeed, container, false);
 			//get a twitter instance for authentication 
@@ -96,14 +101,14 @@ public class TwitterFeedFragment extends Fragment {
 		String authURL = requestToken.getAuthenticationURL();
 		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(authURL)));	
 	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		twitterPrefs = getActivity().getSharedPreferences("Twit",0);
+	//	twitterPrefs = getActivity().getSharedPreferences("Twit",0);
 			
 	}
+ */
 	
  
 

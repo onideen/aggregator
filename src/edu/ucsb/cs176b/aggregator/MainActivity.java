@@ -177,7 +177,7 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	
-	protected void onNewIntent(Intent intent) { 
+	/*protected void onNewIntent(Intent intent) { 
 	    super.onNewIntent(intent); 
 	    //get the retrieved data 
 	    Uri twitURI = intent.getData(); 
@@ -188,5 +188,5 @@ public class MainActivity extends FragmentActivity {
 	        String oaVerifier = twitURI.getQueryParameter("oauth_verifier"); 
 	  
 	    } 
-	}
+	}*/
 }
