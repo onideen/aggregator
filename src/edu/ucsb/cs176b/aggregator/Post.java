@@ -1,12 +1,5 @@
 package edu.ucsb.cs176b.aggregator;
 
-import java.io.InputStream;
-import java.util.Date;
-
-import android.graphics.Picture;
-//import android.text.GetChars;
-import android.net.Uri;
-
 public abstract class Post {
 
 	/**
@@ -19,8 +12,24 @@ public abstract class Post {
 	/**
 	 * The user that posted the post and the owner of the wall it was posted on. 
 	 */
-	
 	private String userId;
+	private String title;
+	
+	/**
+	 * The actual message given in the post
+	 */
+	private String message;
+
+	/**
+	 * The time the post was posted
+	 */
+	private String updatedTime;
+	
+	private String imageUrl = null;
+
+	
+	
+	
 	protected void setUserId(String userId){
 		this.userId = userId;
 	}
@@ -28,7 +37,6 @@ public abstract class Post {
 		return userId;
 	}
 	
-	private String title;
 	protected void setTitle(String title){
 		this.title = title;
 	}
@@ -36,10 +44,6 @@ public abstract class Post {
 		return title;
 	}
 	
-	/**
-	 * The actual message given in the post
-	 */
-	private String message;
 	protected void setMessage(String message){
 		this.message = message;
 		
@@ -48,10 +52,6 @@ public abstract class Post {
 		return message;
 	}
 	
-	/**
-	 * The time the post was posted
-	 */
-	private String updatedTime;
 	protected void setUpdatedTime(String updatedTime){
 		this.updatedTime = updatedTime;
 		
@@ -82,14 +82,13 @@ public abstract class Post {
 	}
 	
 //if picture ex post 126979200807258_134911490014029
-	private String post_picture;
-	protected void setPicture(String picture){
+	protected void setImageUrl(String imageUrl){
 //		this.post_picture = Uri.parse(picture);
-		this.post_picture = picture;
+		this.imageUrl = imageUrl;
 		
 	}
 	public String getImageUrl(){
-		return post_picture;
+		return imageUrl;
 	}
 	
 }

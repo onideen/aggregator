@@ -59,7 +59,7 @@ public class FaceBookPost extends Post {
 			Log.e(TAG, e1.toString());
 		}
 		try{
-			setPicture(jsonObject.getString("picture"));
+			setImageUrl(jsonObject.getString("picture"));
 		} catch (JSONException e1) {
 			Log.e(TAG, e1.toString());
 		}
