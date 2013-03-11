@@ -158,7 +158,7 @@ public class FacebookFeedFragment extends Fragment {
 						s += newsFeed.getProperty("data"); // elements in news feed 
 						JSONArray jsonArray = new JSONArray(s);//
 						Log.i(TAG, "Number of entries " + jsonArray.length());
-						for (int i = 0; i < 10; i++) {
+						for (int i = 0; i < 25; i++) {
 							Post tmpPost = FaceBookPost.getPost(jsonArray.getJSONObject(i));//
 							post = tmpPost != null ? tmpPost : post;
 							
