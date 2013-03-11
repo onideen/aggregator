@@ -23,4 +23,6 @@
     <string name="likeImage">Likes:</string>
 	<string name="post_picture">Image can not be displayed</string>
 	<string name="commentImg">Comments:</string>
+	<string name="please_wait">Please wait...</string>
+	<string name="updating_timeline">Updating timeline</string>
 </resources>

@@ -88,7 +88,7 @@ public abstract class Post {
 		this.post_picture = picture;
 		
 	}
-	public String getPicture(){
+	public String getImageUrl(){
 		return post_picture;
 	}
 	

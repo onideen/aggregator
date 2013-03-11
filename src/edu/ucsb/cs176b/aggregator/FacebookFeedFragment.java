@@ -1,10 +1,6 @@
 package edu.ucsb.cs176b.aggregator;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,9 +9,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Picture;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,12 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
 import com.facebook.*;
 import com.facebook.model.*;
-import com.facebook.widget.ProfilePictureView;
-import android.support.v4.app.FragmentActivity;
-
-
 
 
 /**
@@ -41,18 +31,10 @@ public class FacebookFeedFragment extends Fragment {
 	private static final Uri M_FACEBOOK_URL = Uri.parse("http://m.facebook.com");
 
 	private static final int REAUTH_ACTIVITY_CODE = 100;
-	Post post;
-	private TextView postTitle;
-	private TextView postMessage;
-	private TextView countComment;
-	private TextView countLikes;
-	private TextView updatedTime;
-	private ProfilePictureView profilePictureView;
-	private ImageView post_picture;
-	private ImageView likeImage;
-	private ImageView commentImage;
-
-
+	private ArrayList<Post> posts;
+	private PostAdapter postAdapter;
+	private ListView postList;
+	
 	private ProgressDialog progressDialog;
 
 	private UiLifecycleHelper uiHelper;
@@ -83,19 +65,14 @@ public class FacebookFeedFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.feed, container, false);
-		profilePictureView = (ProfilePictureView) view.findViewById(R.id.selection_profile_pic);
-		profilePictureView.setCropped(true);
-		post_picture = (ImageView) view.findViewById(R.id.post_picture);
-		postTitle = (TextView) view.findViewById(R.id.post_title);
-		postMessage = (TextView) view.findViewById(R.id.post_message);
-		countLikes = (TextView) view.findViewById(R.id.countLikes);
-		countComment = (TextView) view.findViewById(R.id.countComment);
-		likeImage = (ImageView) view.findViewById(R.id.likeImage);
-		commentImage = (ImageView) view.findViewById(R.id.commentImg);
-		updatedTime =(TextView) view.findViewById(R.id.updatedTime);
+		
+		postList = (ListView) view.findViewById(R.id.post_list);
+		posts = new ArrayList<Post>();
+		
+		postAdapter = new PostAdapter(getActivity(), R.layout.list_post, posts);
+		
+		postList.setAdapter(postAdapter);
 		init(savedInstanceState);
-
-
 		return view;
 	}
 
@@ -139,7 +116,7 @@ public class FacebookFeedFragment extends Fragment {
 		Request request = Request.newGraphPathRequest(session, "me/home/", new Request.Callback() { //
 			//		Request request = Request.newGraphPathRequest(session, "681835202_10152622573290203", new Request.Callback() {
 
-
+						
 			@Override
 			public void onCompleted(Response response) {
 				GraphObject newsFeed = response.getGraphObject();
@@ -149,19 +126,17 @@ public class FacebookFeedFragment extends Fragment {
 					progressDialog = null;
 				}
 				if (session == Session.getActiveSession()) {
-					JSONObject obj = newsFeed.getInnerJSONObject();//
-
-
-
 					try{  
 						s += newsFeed.getProperty("data"); // elements in news feed 
 						JSONArray jsonArray = new JSONArray(s);//
 						Log.i(TAG, "Number of entries " + jsonArray.length());
-						for (int i = 0; i < 25; i++) {
+						for (int i = 0; i < 10; i++) {
 							Post tmpPost = FaceBookPost.getPost(jsonArray.getJSONObject(i));//
-							post = tmpPost != null ? tmpPost : post;
+							if (tmpPost != null){
+								Log.i(TAG, "added post: " + tmpPost);
+								posts.add(tmpPost);
+							}
 							
-							//post = new FaceBookPost( newsFeed.getInnerJSONObject());
 							Log.i(TAG, i + "");
 						}
 
@@ -177,40 +152,15 @@ public class FacebookFeedFragment extends Fragment {
 				if (response.getError() != null) {
 					handleError(response.getError());
 				}
+				postAdapter.notifyDataSetChanged();
 			}
 		});
-		request.executeAndWait();
-		updateView();
-	}
+		request.executeAsync();
 
-
-	private void updateView() {
-		if (post != null) {
-			
-			Log.i(TAG, "USerid: " + post.getUserId());
-			profilePictureView.setProfileId(post.getUserId());
-			postTitle.setText(post.getTitle());
 	
-			Bitmap bitmap;
-			//if(!post.getPicture().equals(null)){
-				try {
-					bitmap = BitmapFactory.decodeStream((InputStream)new URL(post.getPicture()).getContent());
-					post_picture.setImageBitmap(bitmap);
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					Log.e(TAG, e.toString());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					Log.e(TAG, e.toString());
-				}
-			//}
-			postMessage.setText(post.getMessage());
-			countComment.setText(post.getCountComment() + "");
-			countLikes.setText(post.getCountLikes() + "");
-			updatedTime.setText(post.getUpdatedTime());
-		}
 	}
 
+	
 	/**
 	 * Resets the view to the initial defaults.
 	 */
