@@ -66,6 +66,14 @@ public class FacebookFeedFragment extends Fragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.feed, container, false);
 		
+//		((PullToRefreshListView) getListView()).setOnRefreshListener(new OnRefreshListener() {
+//		    @Override
+//		    public void onRefresh() {
+//		         Do work to refresh the list here.
+//		        makeFacebookFeedRequest(session);
+//		    }
+//		});
+		
 		postList = (ListView) view.findViewById(R.id.post_list);
 		posts = new ArrayList<Post>();
 		
@@ -130,7 +138,7 @@ public class FacebookFeedFragment extends Fragment {
 						s += newsFeed.getProperty("data"); // elements in news feed 
 						JSONArray jsonArray = new JSONArray(s);//
 						Log.i(TAG, "Number of entries " + jsonArray.length());
-						for (int i = 0; i < 10; i++) {
+						for (int i = 0; i < 25; i++) {
 							Post tmpPost = FaceBookPost.getPost(jsonArray.getJSONObject(i));//
 							if (tmpPost != null){
 								Log.i(TAG, "added post: " + tmpPost);
