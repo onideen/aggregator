@@ -31,12 +31,12 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		Post post = getItem(position);
 
 		// Inflate view
-		//if (convertView == null) {
+		if (convertView == null) {
 			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			postView = (LinearLayout) vi.inflate(resource, null);
-		//} else {
-		//	postView = (LinearLayout) convertView;
-		//}
+		} else {
+			postView = (LinearLayout) convertView;
+		}
 		// FInd all elements in view
 		ProfilePictureView profilePictureView = (ProfilePictureView)postView.findViewById(R.id.selection_profile_pic);
 		ImageView post_picture = (ImageView) postView.findViewById(R.id.post_picture);
@@ -44,8 +44,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		TextView postMessage = (TextView) postView.findViewById(R.id.post_message);
 		TextView countLikes = (TextView) postView.findViewById(R.id.count_likes);
 		TextView countComment = (TextView) postView.findViewById(R.id.count_comments);
-		ImageView likeImage = (ImageView) postView.findViewById(R.id.like_image);
-		ImageView commentImage = (ImageView) postView.findViewById(R.id.comment_img);
 		TextView updatedTime = (TextView) postView.findViewById(R.id.updatedTime);
 
 		profilePictureView.setCropped(true);
@@ -56,12 +54,12 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		if (post.getImageUrl() != null){
 			Log.i(TAG, "Downloading: " + post.getImageUrl());
 			post_picture.setTag(post.getImageUrl());
-			//post_picture.setVisibility(View.VISIBLE);
+			post_picture.setVisibility(View.VISIBLE);
 			new DownloadImageTask(post_picture).execute();
 		}
 		else {
 			Log.i(TAG, "No image... " + post.getTitle());
-			
+			post_picture.setVisibility(View.GONE);
 		}
 		postMessage.setText(post.getMessage());
 		countComment.setText(post.getCountComment() + "");
