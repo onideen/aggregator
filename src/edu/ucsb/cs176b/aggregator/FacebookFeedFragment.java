@@ -15,11 +15,13 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.*;
 
 import com.facebook.*;
 import com.facebook.model.*;
+
 
 
 /**
@@ -34,7 +36,7 @@ public class FacebookFeedFragment extends Fragment {
 	private ArrayList<Post> posts;
 	private PostAdapter postAdapter;
 	private ListView postList;
-	
+
 	private ProgressDialog progressDialog;
 
 	private UiLifecycleHelper uiHelper;
@@ -45,14 +47,16 @@ public class FacebookFeedFragment extends Fragment {
 		}
 	};
 
-	
-	
+	private Session session;
+
+
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		uiHelper = new UiLifecycleHelper(getActivity(), callback);
 		uiHelper.onCreate(savedInstanceState);
-		//setContentView(); kan dette v�re en l�sning p� display problemet? 
+
 	}
 
 	@Override
@@ -65,20 +69,23 @@ public class FacebookFeedFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.feed, container, false);
+
+		   Button refresh = (Button) view.findViewById(R.id.refresh);
+		    refresh.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					makeFacebookFeedRequest(session);
+				}
+
+			});
 		
-//		((PullToRefreshListView) getListView()).setOnRefreshListener(new OnRefreshListener() {
-//		    @Override
-//		    public void onRefresh() {
-//		         Do work to refresh the list here.
-//		        makeFacebookFeedRequest(session);
-//		    }
-//		});
-		
+
 		postList = (ListView) view.findViewById(R.id.post_list);
 		posts = new ArrayList<Post>();
-		
+
 		postAdapter = new PostAdapter(getActivity(), R.layout.list_post, posts);
-		
+
 		postList.setAdapter(postAdapter);
 		init(savedInstanceState);
 		return view;
@@ -113,6 +120,7 @@ public class FacebookFeedFragment extends Fragment {
 
 	private void onSessionStateChange(final Session session, SessionState state, Exception exception) {
 		if (session != null && session.isOpened()) {
+			this.session = session;
 			makeFacebookFeedRequest(session);
 		}
 	}
@@ -124,7 +132,7 @@ public class FacebookFeedFragment extends Fragment {
 		Request request = Request.newGraphPathRequest(session, "me/home/", new Request.Callback() { //
 			//		Request request = Request.newGraphPathRequest(session, "681835202_10152622573290203", new Request.Callback() {
 
-						
+
 			@Override
 			public void onCompleted(Response response) {
 				GraphObject newsFeed = response.getGraphObject();
@@ -144,7 +152,7 @@ public class FacebookFeedFragment extends Fragment {
 								Log.i(TAG, "added post: " + tmpPost);
 								posts.add(tmpPost);
 							}
-							
+
 							Log.i(TAG, i + "");
 						}
 
@@ -165,10 +173,10 @@ public class FacebookFeedFragment extends Fragment {
 		});
 		request.executeAsync();
 
-	
+
 	}
 
-	
+
 	/**
 	 * Resets the view to the initial defaults.
 	 */
@@ -178,7 +186,7 @@ public class FacebookFeedFragment extends Fragment {
 		if (session != null && session.isOpened()) {
 			//makeMeRequest(session);
 			makeFacebookFeedRequest(session);
-	}
+		}
 	}
 
 

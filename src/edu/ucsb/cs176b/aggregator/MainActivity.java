@@ -24,6 +24,7 @@ public class MainActivity extends FragmentActivity {
 	private MenuItem settings;
 	private MenuItem facebookFeed;
 	private MenuItem twitterFeed;
+	private MenuItem refresh;
 	private boolean isResumed = false;
 	private UiLifecycleHelper uiHelper;
 	private Session.StatusCallback callback = new Session.StatusCallback() {
