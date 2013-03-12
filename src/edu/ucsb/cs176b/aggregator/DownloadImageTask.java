@@ -26,6 +26,12 @@ public class DownloadImageTask extends AsyncTask<ImageView, Void, Bitmap> {
 	}
 	
 	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		imageView.setVisibility(View.INVISIBLE);
+	}
+	
+	@Override
 	protected Bitmap doInBackground(ImageView... imageViews) {
 		return downloadImage(imageView.getTag().toString());
 	}
