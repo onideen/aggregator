@@ -29,7 +29,6 @@ public abstract class Post {
 
 	
 	
-	
 	protected void setUserId(String userId){
 		this.userId = userId;
 	}
@@ -81,9 +80,7 @@ public abstract class Post {
 		return countComment;
 	}
 	
-//if picture ex post 126979200807258_134911490014029
 	protected void setImageUrl(String imageUrl){
-//		this.post_picture = Uri.parse(picture);
 		this.imageUrl = imageUrl;
 		
 	}
