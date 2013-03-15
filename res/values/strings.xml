@@ -3,8 +3,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Aggregator</string>
     <string name="app_id">133312576839682</string>
-    <string name="get_started">To get started, login using Facebook</string>
+    <string name="get_started">To get started, login to Facebook and Twitter</string>
     <string name="login">Login</string>
+     <string name="twitter_login">Login Twitter</string>
     <string name="facebook_feed">Facebook</string>
     <string name="twitter_feed">Twitter</string>
     <string name="settings">Settings</string>
@@ -28,4 +29,7 @@
 	<string name="refresh">Refresh</string>
 	<string name="profilePicture">Profile Picture</string>
 	<string name="retweets">Retweets</string>
+	<string name="icon">Logo</string>
+	<string name="bird">Twitter Login</string>
+	<string name="twitter_logo">Logo</string>
 </resources>
