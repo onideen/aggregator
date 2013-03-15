@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Aggregator</string>
     <string name="app_id">133312576839682</string>
     <string name="get_started">To get started, login using Facebook</string>
@@ -23,7 +23,9 @@
     <string name="like_image">Likes:</string>
 	<string name="post_picture">Image can not be displayed</string>
 	<string name="comment_img">Comments:</string>
-	<string name="please_wait">Please wait...</string>
+	<string name="please_wait" tools:ignore="TypographyEllipsis">Please wait...</string>
 	<string name="updating_timeline">Updating timeline</string>
 	<string name="refresh">Refresh</string>
+	<string name="profilePicture">Profile Picture</string>
+	<string name="retweets">Retweets</string>
 </resources>

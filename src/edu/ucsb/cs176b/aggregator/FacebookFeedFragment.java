@@ -3,7 +3,6 @@ package edu.ucsb.cs176b.aggregator;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -21,6 +20,10 @@ import android.widget.*;
 
 import com.facebook.*;
 import com.facebook.model.*;
+
+import edu.ucsb.cs176b.models.FaceBookPost;
+import edu.ucsb.cs176b.models.Post;
+import edu.ucsb.cs176b.models.PostAdapter;
 
 
 

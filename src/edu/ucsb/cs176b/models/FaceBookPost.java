@@ -1,7 +1,8 @@
-package edu.ucsb.cs176b.aggregator;
+package edu.ucsb.cs176b.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 import android.util.Log;
 

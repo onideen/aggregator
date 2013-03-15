@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.facebook.Session;
@@ -19,12 +20,12 @@ public class MainActivity extends FragmentActivity {
 	private static final int TWITTER_FEED = 2;
 	private static final int SETTINGS = 3;
 	private static final int FRAGMENT_COUNT = SETTINGS + 1;
+	private static final String TAG = "MainActivity";
 
 	private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 	private MenuItem settings;
 	private MenuItem facebookFeed;
 	private MenuItem twitterFeed;
-	private MenuItem refresh;
 	private boolean isResumed = false;
 	private UiLifecycleHelper uiHelper;
 	private Session.StatusCallback callback = new Session.StatusCallback() {
@@ -143,6 +144,7 @@ public class MainActivity extends FragmentActivity {
 	private void onSessionStateChange(Session session, SessionState state,
 			Exception exception) {
 		if (isResumed) {
+			Log.i(TAG, "onSessionStateChange");
 			FragmentManager manager = getSupportFragmentManager();
 			int backStackSize = manager.getBackStackEntryCount();
 			for (int i = 0; i < backStackSize; i++) {
@@ -176,7 +178,15 @@ public class MainActivity extends FragmentActivity {
 		transaction.commit();
 	}
 	
-	
+	@Override
+	protected void onNewIntent(Intent intent) { 
+	    super.onNewIntent(intent); 
+	    Log.i(TAG, "onNewIntent");
+	    
+	    TwitterFeedFragment f = (TwitterFeedFragment)fragments[TWITTER_FEED];
+	    f.handleTwitterCallBack(intent);
+	    
+	}
 	/*protected void onNewIntent(Intent intent) { 
 	    super.onNewIntent(intent); 
 	    //get the retrieved data 

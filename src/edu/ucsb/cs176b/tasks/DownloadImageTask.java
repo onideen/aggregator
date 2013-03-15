@@ -1,4 +1,4 @@
-package edu.ucsb.cs176b.aggregator;
+package edu.ucsb.cs176b.tasks;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
