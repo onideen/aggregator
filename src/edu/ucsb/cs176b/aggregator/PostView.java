@@ -11,5 +11,4 @@ public class PostView extends View {
 		
 		// TODO Auto-generated constructor stub
 	}
-
 }

@@ -19,7 +19,6 @@ public class DownloadImageTask extends AsyncTask<ImageView, Void, Bitmap> {
 	private ImageView imageView = null;
 	private String path;
 	
-	
 	public DownloadImageTask(ImageView imageView) {
 		this.imageView = imageView;
 		path = imageView.getTag().toString();
@@ -38,11 +37,9 @@ public class DownloadImageTask extends AsyncTask<ImageView, Void, Bitmap> {
 
 	@Override
 	protected void onPostExecute(Bitmap result) {
-	
 		if (!imageView.getTag().toString().equals(path)) {
 			return;
 		}
-		
 		if (result != null && imageView != null){
 			imageView.setImageBitmap(result);
 			imageView.setVisibility(View.VISIBLE);
@@ -52,7 +49,6 @@ public class DownloadImageTask extends AsyncTask<ImageView, Void, Bitmap> {
 	}
 	
 	private Bitmap downloadImage(String url) {
-		
 		Bitmap bitmap = null;
 		try {
 			URL iURL = new URL(url);
@@ -67,8 +63,6 @@ public class DownloadImageTask extends AsyncTask<ImageView, Void, Bitmap> {
 		catch (IOException e) {
 			Log.e(TAG, "Error while downloading image from server", e);
 		}
-		
 		return bitmap;
 	}
-
 }

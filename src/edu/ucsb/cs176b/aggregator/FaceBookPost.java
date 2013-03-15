@@ -19,12 +19,10 @@ public class FaceBookPost extends Post {
 		if (type.equals("status") || type.equals("photo")) {
 			return new FaceBookPost(jsonObject, type);
 		}
-
 		return null;
 	}
 
 	public FaceBookPost(JSONObject jsonObject, String type) {
-
 		try {
 			setUserId(jsonObject.getJSONObject("from").getString("id"));
 		} catch (JSONException e1) {
@@ -40,19 +38,16 @@ public class FaceBookPost extends Post {
 		} catch (JSONException e1) {
 			Log.e(TAG, e1.toString());
 		}
-
 		try{
 			setCountLikes(jsonObject.getJSONObject("likes").getInt("count"));
 		} catch (JSONException e1) {
 			Log.e(TAG, e1.toString());
 		}
-
 		try {
 			setMessage(jsonObject.getString("message"));
 		} catch (JSONException e1) {
 			Log.e(TAG, e1.toString());
 		}
-
 		try {
 			setUpdatedTime(jsonObject.getString("created_time"));
 		} catch (JSONException e1) {
@@ -63,6 +58,5 @@ public class FaceBookPost extends Post {
 		} catch (JSONException e1) {
 			Log.e(TAG, e1.toString());
 		}
-
 	}
 }

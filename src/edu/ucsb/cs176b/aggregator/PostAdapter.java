@@ -26,17 +26,17 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-
 		LinearLayout postView;
 		Post post = getItem(position);
 
 		// Inflate view
-		if (convertView == null) {
+//		if (convertView == null) {
 			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			postView = (LinearLayout) vi.inflate(resource, null);
-		} else {
-			postView = (LinearLayout) convertView;
-		}
+//		} 
+//		else {
+//			postView = (LinearLayout) convertView;
+//		}
 		// FInd all elements in view
 		ProfilePictureView profilePictureView = (ProfilePictureView)postView.findViewById(R.id.selection_profile_pic);
 		ImageView post_picture = (ImageView) postView.findViewById(R.id.post_picture);
@@ -47,7 +47,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		TextView updatedTime = (TextView) postView.findViewById(R.id.updatedTime);
 
 		profilePictureView.setCropped(true);
-
 		profilePictureView.setProfileId(post.getUserId());
 		postTitle.setText(post.getTitle());
 
@@ -68,5 +67,4 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 		return postView;
 	}
-
 }

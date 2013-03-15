@@ -1,5 +1,8 @@
 package edu.ucsb.cs176b.aggregator;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -22,23 +25,22 @@ import android.widget.*;
 import com.facebook.*;
 import com.facebook.model.*;
 
-
-
 /**
  * Fragment that represents the feed for aggregation
  */
+
+
+
+
 public class FacebookFeedFragment extends Fragment {
 	private String TAG = "FeedFragment";
 
 	private static final Uri M_FACEBOOK_URL = Uri.parse("http://m.facebook.com");
-
 	private static final int REAUTH_ACTIVITY_CODE = 100;
 	private ArrayList<Post> posts;
 	private PostAdapter postAdapter;
 	private ListView postList;
-
 	private ProgressDialog progressDialog;
-
 	private UiLifecycleHelper uiHelper;
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 		@Override
@@ -46,17 +48,13 @@ public class FacebookFeedFragment extends Fragment {
 			onSessionStateChange(session, state, exception);
 		}
 	};
-
 	private Session session;
-
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		uiHelper = new UiLifecycleHelper(getActivity(), callback);
 		uiHelper.onCreate(savedInstanceState);
-
 	}
 
 	@Override
@@ -72,20 +70,17 @@ public class FacebookFeedFragment extends Fragment {
 
 		   Button refresh = (Button) view.findViewById(R.id.refresh);
 		    refresh.setOnClickListener(new OnClickListener() {
+		    	
 				
 				@Override
 				public void onClick(View v) {
 					makeFacebookFeedRequest(session);
 				}
-
 			});
 		
-
 		postList = (ListView) view.findViewById(R.id.post_list);
 		posts = new ArrayList<Post>();
-
 		postAdapter = new PostAdapter(getActivity(), R.layout.list_post, posts);
-
 		postList.setAdapter(postAdapter);
 		init(savedInstanceState);
 		return view;
@@ -117,7 +112,6 @@ public class FacebookFeedFragment extends Fragment {
 		uiHelper.onDestroy();
 	}
 
-
 	private void onSessionStateChange(final Session session, SessionState state, Exception exception) {
 		if (session != null && session.isOpened()) {
 			this.session = session;
@@ -127,11 +121,24 @@ public class FacebookFeedFragment extends Fragment {
 
 	private void makeFacebookFeedRequest(final Session session) {
 		// Show a progress dialog because sometimes the requests can take a while.
+		
+		if(isOnline()== false){
+			
+			AlertDialog ad = new AlertDialog.Builder(getActivity()).create();  
+			ad.setCancelable(false); // This blocks the 'BACK' button  
+			ad.setMessage("Check your internet connection");  
+			ad.setButton("OK", new DialogInterface.OnClickListener() {  
+			    @Override  
+			    public void onClick(DialogInterface dialog, int which) {  
+			        dialog.dismiss();                      
+			    }  
+			});  
+			ad.show();
+			
+		}
 		progressDialog = ProgressDialog.show(getActivity(), "", getActivity().getResources().getString(R.string.progress_dialog_text), true);
 
-		Request request = Request.newGraphPathRequest(session, "me/home/", new Request.Callback() { //
-			//		Request request = Request.newGraphPathRequest(session, "681835202_10152622573290203", new Request.Callback() {
-
+		Request request = Request.newGraphPathRequest(session, "me/home/", new Request.Callback() {
 
 			@Override
 			public void onCompleted(Response response) {
@@ -144,26 +151,21 @@ public class FacebookFeedFragment extends Fragment {
 				if (session == Session.getActiveSession()) {
 					try{  
 						s += newsFeed.getProperty("data"); // elements in news feed 
-						JSONArray jsonArray = new JSONArray(s);//
+						JSONArray jsonArray = new JSONArray(s);
 						Log.i(TAG, "Number of entries " + jsonArray.length());
 						for (int i = 0; i < 25; i++) {
-							Post tmpPost = FaceBookPost.getPost(jsonArray.getJSONObject(i));//
+							Post tmpPost = FaceBookPost.getPost(jsonArray.getJSONObject(i));
 							if (tmpPost != null){
 								Log.i(TAG, "added post: " + tmpPost);
 								posts.add(tmpPost);
 							}
-
 							Log.i(TAG, i + "");
 						}
-
 					}
 					catch (Exception e) {
 						Log.wtf(TAG, e);
 						e.printStackTrace();
 					}
-
-
-					//requestResponse.setText(s);
 				}		              
 				if (response.getError() != null) {
 					handleError(response.getError());
@@ -172,10 +174,18 @@ public class FacebookFeedFragment extends Fragment {
 			}
 		});
 		request.executeAsync();
-
-
 	}
-
+	
+	 public static boolean isOnline() {
+         try {
+             InetAddress.getByName("google.ca").isReachable(3);
+             return true;
+         } catch (UnknownHostException e){
+             return false;
+         } catch (IOException e){
+             return false;
+         }
+     }
 
 	/**
 	 * Resets the view to the initial defaults.
@@ -184,12 +194,9 @@ public class FacebookFeedFragment extends Fragment {
 
 		Session session = Session.getActiveSession();
 		if (session != null && session.isOpened()) {
-			//makeMeRequest(session);
 			makeFacebookFeedRequest(session);
 		}
 	}
-
-
 
 	private void handleError(FacebookRequestError error) {
 		DialogInterface.OnClickListener listener = null;
@@ -246,15 +253,16 @@ public class FacebookFeedFragment extends Fragment {
 				// an unknown issue occurred, this could be a code error, or
 				// a server side issue, log the issue, and either ask the
 				// user to retry, or file a bug
-				dialogBody = getString(R.string.error_unknown, error.getErrorMessage());
+				//dialogBody = getString(R.string.error_unknown, error.getErrorMessage());
 				break;
 			}
 		}
-
+		if(dialogBody!=null){
 		new AlertDialog.Builder(getActivity())
 		.setPositiveButton(R.string.error_dialog_button_text, listener)
 		.setTitle(R.string.error_dialog_title)
 		.setMessage(dialogBody)
 		.show();
+		}
 	}
 }
