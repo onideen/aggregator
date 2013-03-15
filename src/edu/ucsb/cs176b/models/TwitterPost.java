@@ -23,9 +23,12 @@ public class TwitterPost extends Post {
 		
 		//Retweets
 		setCountCommet(status.getRetweetCount());
+		Log.v(TAG, "hm");
+		if(status.getMediaEntities() != null) {
+			Log.v(TAG, "yo");
+		}
 		
-		Log.v(TAG, status.getMediaEntities()[0].getMediaURL());
-		setProfilePictureUrl(status.getUser().getMiniProfileImageURL());
+		setProfilePictureUrl(status.getUser().getBiggerProfileImageURL());
 		setUpdatedTime(status.getCreatedAt().toGMTString());
 		
 	}

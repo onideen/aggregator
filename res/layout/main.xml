@@ -9,14 +9,6 @@
         android:name="edu.ucsb.cs176b.aggregator.FacebookFeedFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-<!-- 
-     <fragment
-        android:id="@+id/twitterFeedFragment"
-        android:name="edu.ucsb.cs176b.aggregator.TwitterFeedFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
- -->
-
 
     <fragment
         android:id="@+id/splashFragment"
