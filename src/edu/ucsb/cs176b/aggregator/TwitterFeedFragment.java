@@ -67,8 +67,8 @@ public class TwitterFeedFragment extends Fragment {
 		});
 
 /*****NOE FEIL SOM KOMMER NAR DISSE LASTES INN */
-		//postAdapter = new PostAdapter(getActivity(), R.layout.list_twitter_post, posts);
-	//	postList.setAdapter(postAdapter);
+		postAdapter = new PostAdapter(getActivity(), R.layout.list_twitter_post, posts);
+		postList.setAdapter(postAdapter);
 		
 		
 		return view;

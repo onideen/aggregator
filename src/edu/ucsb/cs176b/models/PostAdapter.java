@@ -57,6 +57,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		ImageView post_picture = (ImageView) postView.findViewById(R.id.post_picture);
 		TextView postTitle = (TextView) postView.findViewById(R.id.post_title);
 		TextView postMessage = (TextView) postView.findViewById(R.id.post_message);
+		
 		TextView countLikes = (TextView) postView.findViewById(R.id.count_likes);
 		TextView countComment = (TextView) postView.findViewById(R.id.count_comments);
 		TextView updatedTime = (TextView) postView.findViewById(R.id.updatedTime);
