@@ -4,21 +4,17 @@
     android:padding="5dp"
     android:orientation="vertical" > 
   
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Welcome to TwitNice!"
-        android:textStyle="bold" /> 
-  
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="You need to sign into Twitter to authorize the app" /> 
-  
+   
     <Button
         android:id="@+id/twitter_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign In" /> 
+        android:text="@string/login" /> 
   
+    <ListView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:id="@+id/post_list"
+    /> 
+    
 </LinearLayout> 

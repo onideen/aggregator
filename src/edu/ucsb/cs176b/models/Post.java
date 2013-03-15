@@ -1,4 +1,4 @@
-package edu.ucsb.cs176b.aggregator;
+package edu.ucsb.cs176b.models;
 
 public abstract class Post {
 	
@@ -7,6 +7,10 @@ public abstract class Post {
 	private String message;
 	private String updatedTime;
 	private String imageUrl = null;
+	private long countComment;
+
+
+	private String profilePictureUrl = null;
 
 	protected void setUserId(String userId){
 		this.userId = userId;
@@ -47,11 +51,10 @@ public abstract class Post {
 		return countLikes;
 	}
 	
-	private int countComment;
-	protected void setCountCommet(int countComment){
-		this.countComment = countComment;
+	protected void setCountCommet(long l){
+		this.countComment = l;
 	}
-	public int getCountComment(){
+	public long getCountComment(){
 		return countComment;
 	}
 	
@@ -61,5 +64,13 @@ public abstract class Post {
 	}
 	public String getImageUrl(){
 		return imageUrl;
+	}
+
+	protected void setProfilePictureUrl(String url) {
+		this.profilePictureUrl = url;
+	}
+	
+	public String getProfilePictureUrl() {
+		return profilePictureUrl;
 	}
 }
