@@ -27,6 +27,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		this.resource = resource;
 	}
 
+	/** LAG EN TMP VERSION FOR TWITTER FOR Å TESTE, HVIS IKKE KAN DET HENDE FACEBOOKFEEDEN FÅR FEIL..... */
+	
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LinearLayout postView;
@@ -40,12 +43,16 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		//		else {
 		//			postView = (LinearLayout) convertView;
 		//		}
-		ProfilePictureView profilePictureView = null;
-		// FInd all elements in view
+//		// FInd all elements in view
 		if (post instanceof FaceBookPost) {
+			ProfilePictureView profilePictureView = null;
 			profilePictureView = (ProfilePictureView)postView.findViewById(R.id.profile_pic);			
 			profilePictureView.setCropped(true);			
 			profilePictureView.setProfileId(post.getUserId());
+
+			TextView countLikes = (TextView) postView.findViewById(R.id.count_likes);
+			countLikes.setText(post.getCountLikes() + "");
+
 		} else {
 			if(post.getProfilePictureUrl() != null){
 				ImageView profile_pic = (ImageView)postView.findViewById(R.id.twit_profile_pic);
@@ -58,13 +65,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		ImageView post_picture = (ImageView) postView.findViewById(R.id.post_picture);
 		TextView postTitle = (TextView) postView.findViewById(R.id.post_title);
 		TextView postMessage = (TextView) postView.findViewById(R.id.post_message);
-		TextView countLikes = (TextView) postView.findViewById(R.id.count_likes);
+		
 		TextView countComment = (TextView) postView.findViewById(R.id.count_comments);
 		TextView updatedTime = (TextView) postView.findViewById(R.id.updatedTime);
 
 
-		profilePictureView.setCropped(true);
-		profilePictureView.setProfileId(post.getUserId());
 		postTitle.setText(post.getTitle());
 
 		if (post.getImageUrl() != null){
@@ -79,7 +84,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		}
 		postMessage.setText(post.getMessage());
 		countComment.setText(post.getCountComment() + "");
-		countLikes.setText(post.getCountLikes() + "");
 		updatedTime.setText(post.getUpdatedTime());
 
 		return postView;

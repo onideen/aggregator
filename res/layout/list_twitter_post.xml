@@ -57,7 +57,7 @@
                 android:layout_height="15pt"
                 android:contentDescription="@string/retweets"
                 android:scaleType="fitStart"
-                android:src="@drawable/face_comment" />
+                android:src="@drawable/retweet_icon" />
 
             <TextView
                 android:id="@+id/count_comments"
