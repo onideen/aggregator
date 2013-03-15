@@ -29,20 +29,21 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-
 		LinearLayout postView;
 		Post post = getItem(position);
 
 		// Inflate view
-		if (convertView == null) {
-			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			postView = (LinearLayout) vi.inflate(resource, null);
-		} else {
-			postView = (LinearLayout) convertView;
-		}
+		//		if (convertView == null) {
+		LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		postView = (LinearLayout) vi.inflate(resource, null);
+		//		} 
+		//		else {
+		//			postView = (LinearLayout) convertView;
+		//		}
+		ProfilePictureView profilePictureView = null;
 		// FInd all elements in view
 		if (post instanceof FaceBookPost) {
-			ProfilePictureView profilePictureView = (ProfilePictureView)postView.findViewById(R.id.profile_pic);			
+			profilePictureView = (ProfilePictureView)postView.findViewById(R.id.profile_pic);			
 			profilePictureView.setCropped(true);			
 			profilePictureView.setProfileId(post.getUserId());
 		} else {
@@ -62,6 +63,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		TextView countComment = (TextView) postView.findViewById(R.id.count_comments);
 		TextView updatedTime = (TextView) postView.findViewById(R.id.updatedTime);
 
+
+		profilePictureView.setCropped(true);
+		profilePictureView.setProfileId(post.getUserId());
 		postTitle.setText(post.getTitle());
 
 		if (post.getImageUrl() != null){
@@ -81,5 +85,4 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 		return postView;
 	}
-
 }

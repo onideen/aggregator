@@ -1,5 +1,9 @@
 package edu.ucsb.cs176b.aggregator;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,19 +43,18 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 
 		setContentView(R.layout.main);
-
 		FragmentManager fm = getSupportFragmentManager();
 		fragments[SPLASH] = fm.findFragmentById(R.id.splashFragment);
 		fragments[FACEBOOK_FEED] = fm.findFragmentById(R.id.facebookFeedFragment);
 		fragments[TWITTER_FEED] = fm.findFragmentById(R.id.twitterFeedFragment);
 		fragments[SETTINGS] = fm.findFragmentById(R.id.userSettingsFragment);
-
 		FragmentTransaction transaction = fm.beginTransaction();
+		
 		for (int i = 0; i < fragments.length; i++) {
 			transaction.hide(fragments[i]);
 		}
@@ -165,6 +168,7 @@ public class MainActivity extends FragmentActivity {
 	private void showFragment(int fragmentIndex, boolean addToBackStack) {
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction transaction = fm.beginTransaction();
+	
 		for (int i = 0; i < fragments.length; i++) {
 			if (i == fragmentIndex) {
 				transaction.show(fragments[i]);
@@ -178,6 +182,7 @@ public class MainActivity extends FragmentActivity {
 		transaction.commit();
 	}
 	
+
 	@Override
 	protected void onNewIntent(Intent intent) { 
 	    super.onNewIntent(intent); 

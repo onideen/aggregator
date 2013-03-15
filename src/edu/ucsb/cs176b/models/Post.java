@@ -1,35 +1,17 @@
 package edu.ucsb.cs176b.models;
 
 public abstract class Post {
-
-	/**
-	 * A class that contains all the information of a post we want to view.
-	 * 
-	 * TODO: finish it
-	 */
 	
-	
-	/**
-	 * The user that posted the post and the owner of the wall it was posted on. 
-	 */
 	private String userId;
 	private String title;
-	
-	/**
-	 * The actual message given in the post
-	 */
 	private String message;
-
-	/**
-	 * The time the post was posted
-	 */
 	private String updatedTime;
-	
 	private String imageUrl = null;
 	private long countComment;
 
+
 	private String profilePictureUrl = null;
-	
+
 	protected void setUserId(String userId){
 		this.userId = userId;
 	}
@@ -60,10 +42,6 @@ public abstract class Post {
 		return updatedTime;
 	}
 	
-
-	/**
-	 * 
-	 */
 	private int countLikes;
 	protected void setCountLikes(int countLikes){
 		this.countLikes = countLikes;
@@ -87,7 +65,7 @@ public abstract class Post {
 	public String getImageUrl(){
 		return imageUrl;
 	}
-	
+
 	protected void setProfilePictureUrl(String url) {
 		this.profilePictureUrl = url;
 	}
