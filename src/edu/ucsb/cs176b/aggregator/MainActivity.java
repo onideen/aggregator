@@ -21,8 +21,7 @@ public class MainActivity extends FragmentActivity {
 
 	private static final int SPLASH = 0;
 	private static final int FACEBOOK_FEED = 1;
-	private static final int TWITTER_FEED = 2;
-	private static final int SETTINGS = 3;
+	private static final int SETTINGS = 2;
 	private static final int FRAGMENT_COUNT = SETTINGS + 1;
 	private static final String TAG = "MainActivity";
 
@@ -30,6 +29,9 @@ public class MainActivity extends FragmentActivity {
 	private MenuItem settings;
 	private MenuItem facebookFeed;
 	private MenuItem twitterFeed;
+	
+	private Intent twitter;
+	
 	private boolean isResumed = false;
 	private UiLifecycleHelper uiHelper;
 	private Session.StatusCallback callback = new Session.StatusCallback() {
@@ -51,9 +53,11 @@ public class MainActivity extends FragmentActivity {
 		FragmentManager fm = getSupportFragmentManager();
 		fragments[SPLASH] = fm.findFragmentById(R.id.splashFragment);
 		fragments[FACEBOOK_FEED] = fm.findFragmentById(R.id.facebookFeedFragment);
-		fragments[TWITTER_FEED] = fm.findFragmentById(R.id.twitterFeedFragment);
 		fragments[SETTINGS] = fm.findFragmentById(R.id.userSettingsFragment);
 		FragmentTransaction transaction = fm.beginTransaction();
+		
+		twitter = new Intent(this, TwitterFeedActivity.class);
+		
 		
 		for (int i = 0; i < fragments.length; i++) {
 			transaction.hide(fragments[i]);
@@ -130,7 +134,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.equals(twitterFeed)) {
-			showFragment(TWITTER_FEED, true);
+			startActivity(twitter);
 			return true;
 		}
 		else if (item.equals(facebookFeed)) {
@@ -182,16 +186,6 @@ public class MainActivity extends FragmentActivity {
 		transaction.commit();
 	}
 	
-
-	@Override
-	protected void onNewIntent(Intent intent) { 
-	    super.onNewIntent(intent); 
-	    Log.i(TAG, "onNewIntent");
-	    
-	    TwitterFeedFragment f = (TwitterFeedFragment)fragments[TWITTER_FEED];
-	    f.handleTwitterCallBack(intent);
-	    
-	}
 	/*protected void onNewIntent(Intent intent) { 
 	    super.onNewIntent(intent); 
 	    //get the retrieved data 

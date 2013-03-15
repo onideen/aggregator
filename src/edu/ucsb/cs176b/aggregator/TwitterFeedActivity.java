@@ -6,6 +6,7 @@ import java.util.List;
 
 import twitter4j.Twitter; 
 import twitter4j.auth.RequestToken; 
+import android.app.Activity;
 import android.content.SharedPreferences; 
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -31,7 +32,7 @@ import edu.ucsb.cs176b.models.TwitterPost;
 /**
  * Fragment that represents the feed for aggregation
  */
-public class TwitterFeedFragment extends Fragment {
+public class TwitterFeedActivity extends Activity {
 
 	private static final String TWITTER_CONSUMER_KEY = "m2X7d6mzJnrkZeOjysfMw";
 	private static final String TWITTER_CONSUMER_SECRET = "eEwPHKfSu5VomMLxlSFi6bsvoWLJLKf2GeaSZjrOCt0";
@@ -47,79 +48,104 @@ public class TwitterFeedFragment extends Fragment {
 	private PostAdapter postAdapter;
 	private ListView postList;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-
-		//find out if the user preferences are set 
-
-		//no user preferences so prompt to sign in 
-		View view = inflater.inflate(R.layout.twitterfeed, container, false);
-		btnLoginTwitter = (Button)view.findViewById(R.id.twitter_signin);
-		
-		btnLoginTwitter.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				String authURL = requestToken.getAuthenticationURL(); 
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(authURL)));
-			}
-		});
-
-/*****NOE FEIL SOM KOMMER NAR DISSE LASTES INN */
-		postAdapter = new PostAdapter(getActivity(), R.layout.list_twitter_post, posts);
-		postList.setAdapter(postAdapter);
-		
-		
-		return view;
-
-	}
-
 	private void getTwitterTimeline() {
 		Log.v(TAG, "Setup Timeline");
-		
+
 		try {
-			
+
 			ConfigurationBuilder cb = new ConfigurationBuilder();
 			cb.setDebugEnabled(true)
-			  .setOAuthConsumerKey(TWITTER_CONSUMER_KEY)
-			  .setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET)
-			  .setOAuthAccessToken(twitterPrefs.getString("user_token", ""))
-			  .setOAuthAccessTokenSecret(twitterPrefs.getString("user_secret", ""));
+			.setOAuthConsumerKey(TWITTER_CONSUMER_KEY)
+			.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET)
+			.setOAuthAccessToken(twitterPrefs.getString("user_token", ""))
+			.setOAuthAccessTokenSecret(twitterPrefs.getString("user_secret", ""));
 			Log.v(TAG, "userToken: " + twitterPrefs.getString("user_token", ""));
 			Log.v(TAG, "userSecret: " + twitterPrefs.getString("user_secret", ""));
 			TwitterFactory tf = new TwitterFactory(cb.build());
 			Twitter twittertime = tf.getInstance();
-			
+
 			Log.v(TAG, "Twitter screen name: " + twittertime.getScreenName());
-			
+
 			ResponseList<Status> statuses = twittertime.getHomeTimeline();
-			
+
 			for (Status status : statuses) {
 				Post post = new TwitterPost(status);
 				if (post != null) posts.add(post);
-				
+
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "Timeline, " + e.getMessage());
 		}
-		
+
 	}
 
 
-	public void handleTwitterCallBack(Intent intent) {
-		//get the retrieved data 
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		posts = new ArrayList<Post>();
+
+		//get the preferences for the app 
+		twitterPrefs = getSharedPreferences("TwitterPrefs", 0); 
+		setContentView(R.layout.twitterfeed);
+
+
+		if(twitterPrefs.getString("user_token", null)==null) { 
+
+
+			twitter = new TwitterFactory().getInstance();
+
+			//pass dev key and secret
+			twitter.setOAuthConsumer(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET);
+
+			// Try to get request token
+			try {
+				requestToken = twitter.getOAuthRequestToken(TWIT_URL);
+			} catch (TwitterException te){
+				Log.e(TAG, "TE " + te.getMessage());
+			}
+
+			//setup button for click listener 
+			btnLoginTwitter = (Button) findViewById(R.id.twitter_signin);
+			btnLoginTwitter.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					String authURL = requestToken.getAuthenticationURL(); 
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(authURL))); 					
+				}
+			});
+
+		} else {
+			getTwitterTimeline();
+		}
+
+		postList = (ListView) findViewById(R.id.twit_post_list);
+		postAdapter = new PostAdapter(this, R.layout.list_twitter_post, posts);
+		
+		Log.v(TAG, postList.toString());
+		postList.setAdapter(postAdapter); // GIR NULLPOINTER
+		
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		
+		Log.i(TAG, "onNewIntent");
 		Uri twitURI = intent.getData(); 
 		//make sure the url is correct 
-		if(twitURI!=null && twitURI.toString().startsWith(TwitterFeedFragment.TWIT_URL)) 
+		if(twitURI!=null && twitURI.toString().startsWith(TWIT_URL)) 
 		{ 
 			//is verifcation - get the returned data 
-			String oaVerifier = twitURI.getQueryParameter("oauth_verifier");
 
+			String oaVerifier = twitURI.getQueryParameter("oauth_verifier"); 
 			//attempt to retrieve access token 
 			try
 			{ 
 				//try to get an access token using the returned data from the verification page 
+				Log.v(TAG, "hit");
 				AccessToken accToken = twitter.getOAuthAccessToken(requestToken, oaVerifier); 
 
 				//add the token and secret to shared prefs for future reference 
@@ -127,50 +153,14 @@ public class TwitterFeedFragment extends Fragment {
 				.putString("user_token", accToken.getToken()) 
 				.putString("user_secret", accToken.getTokenSecret()) 
 				.commit(); 
-
 				twitter.setOAuthAccessToken(accToken);
-				
+				Log.v(TAG, "men ikke lenger");				
 				getTwitterTimeline(); 
 			} 
 			catch (TwitterException te) 
 			{ Log.e(TAG, "Failed to get access token: " + te.getMessage()); } 
-		}
+		} 
 	}
-
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		posts = new ArrayList<Post>();
-		
-		//get the preferences for the app 
-		twitterPrefs = getActivity().getSharedPreferences("TwitNicePrefs", 0); 
-		
-		
-		if(twitterPrefs.getString("user_token", null)==null) { 
-			
-			twitter = new TwitterFactory().getInstance();
-	
-			//pass dev key and secret
-			twitter.setOAuthConsumer(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET);
-	
-			// Try to get request token
-			try {
-				requestToken = twitter.getOAuthRequestToken(TWIT_URL);
-			} catch (TwitterException te){
-				Log.e(TAG, "TE " + te.getMessage());
-			}
-	
-			//setup button for click listener 
-			
-			} else {
-			getTwitterTimeline();
-		}
-		
-
-	}
-
-
 
 
 }
