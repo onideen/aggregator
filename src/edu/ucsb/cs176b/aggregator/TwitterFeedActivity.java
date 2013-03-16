@@ -22,6 +22,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
@@ -75,6 +77,8 @@ public class TwitterFeedActivity extends Activity {
 	
 	//List
 	private List<Post> posts;
+	
+	private MenuItem facebookMenuButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -263,11 +267,10 @@ public class TwitterFeedActivity extends Activity {
 
 				for (twitter4j.Status status : response) {
 					posts.add(new TwitterPost(status));
-					Log.v(TAG, status.getUser().getName());
 				}
 				
 			} catch (TwitterException e) {
-				Log.e("Twitter Update Error", e.getMessage());
+				Log.e(TAG, "Twitter Update Error" + e.getMessage());
 			}
 			
 			return null;
@@ -280,4 +283,24 @@ public class TwitterFeedActivity extends Activity {
 			postAdapter.notifyDataSetChanged();
 		}
 	}
+	
+	
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		facebookMenuButton = menu.add(R.string.facebook_feed);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.equals(facebookMenuButton)) {
+			Intent intent = new Intent(TwitterFeedActivity.this, MainActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		}
+		return false;
+	}
+	
 }
