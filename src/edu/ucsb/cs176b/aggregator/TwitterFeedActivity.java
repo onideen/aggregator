@@ -9,11 +9,8 @@ import twitter4j.auth.RequestToken;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences; 
-import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
@@ -23,18 +20,11 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.*;
 
 import edu.ucsb.cs176b.models.Post;
-import edu.ucsb.cs176b.models.PostAdapter;
-import edu.ucsb.cs176b.models.TwitterPost;
 
 /**
  * Fragment that represents the feed for aggregation
@@ -65,7 +55,6 @@ public class TwitterFeedActivity extends Activity {
 	private Button btnLogoutTwitter;
 	
 	// lbl update
-	private TextView lblUpdate;
 	private TextView lblUserName;
 
 	// Progress dialog
@@ -195,24 +184,8 @@ public class TwitterFeedActivity extends Activity {
 					e.putBoolean(PREF_KEY_TWITTER_LOGIN, true);
 					e.commit(); // save changes
 
-					Log.e("Twitter OAuth Token", "> " + accessToken.getToken());
-					Log.v(TAG, "JAUDA");
-					// Hide login button
-					btnLoginTwitter.setVisibility(View.GONE);
-
-					// Show Update Twitter
-					lblUpdate.setVisibility(View.VISIBLE);
-					btnRefresh.setVisibility(View.VISIBLE);
-					btnLogoutTwitter.setVisibility(View.VISIBLE);
+					Log.e(TAG, "Twitter OAuth Token >" + accessToken.getToken());
 					
-					// Getting user details from twitter
-					// For now i am getting his name only
-					long userID = accessToken.getUserId();
-					User user = twitter.showUser(userID);
-					String username = user.getName();
-					
-					// Displaying in xml ui
-					lblUserName.setText(Html.fromHtml("<b>Welcome " + username + "</b>"));
 				} catch (Exception e) {
 					// Check log for login errors
 					Log.e("Twitter Login Error", "> " + e.getMessage());
@@ -220,7 +193,7 @@ public class TwitterFeedActivity extends Activity {
 			}
 		}
 		
-		//getTwitterPosts();
+		getTwitterPosts();
 
 	}
 
@@ -272,9 +245,13 @@ public class TwitterFeedActivity extends Activity {
 				e.printStackTrace();
 			}
 		} else {
-			// user already logged into twitter
-			Toast.makeText(getApplicationContext(),
-					"Already Logged into twitter", Toast.LENGTH_LONG).show();
+			
+			// Hide login button
+			btnLoginTwitter.setVisibility(View.GONE);
+
+			// Show Update Twitter
+			btnRefresh.setVisibility(View.VISIBLE);
+			btnLogoutTwitter.setVisibility(View.VISIBLE);
 			
 			
 		}
@@ -366,7 +343,6 @@ public class TwitterFeedActivity extends Activity {
 		// You might not needed this code
 		btnLogoutTwitter.setVisibility(View.GONE);
 		btnRefresh.setVisibility(View.GONE);
-		lblUpdate.setVisibility(View.GONE);
 		lblUserName.setText("");
 		lblUserName.setVisibility(View.GONE);
 
