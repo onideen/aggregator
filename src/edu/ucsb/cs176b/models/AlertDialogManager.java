@@ -1,7 +1,7 @@
 package edu.ucsb.cs176b.models;
 
 import edu.ucsb.cs176b.aggregator.R;
-import edu.ucsb.cs176b.aggregator.R.drawable;
+//import edu.ucsb.cs176b.aggregator.R.drawable;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
