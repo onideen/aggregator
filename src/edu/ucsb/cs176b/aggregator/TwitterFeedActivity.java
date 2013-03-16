@@ -142,13 +142,8 @@ public class TwitterFeedActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// Call update status function
-				try {
-					posts = new GetTwitterPosts().execute(twitter).get();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
+				new GetTwitterPosts().execute(twitter);
+				
 			}
 
 		});
@@ -241,6 +236,39 @@ public class TwitterFeedActivity extends Activity {
 			
 			
 		}
+	}
+	
+	
+	public void getTwitterPosts() {
+		try {
+			ConfigurationBuilder builder = new ConfigurationBuilder();
+			builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
+			builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
+			
+			// Access Token 
+			String access_token = twitterPreferences.getString(PREF_KEY_OAUTH_TOKEN, "");
+			// Access Token Secret
+			String access_token_secret = twitterPreferences.getString(PREF_KEY_OAUTH_SECRET, "");
+			
+			AccessToken accessToken = new AccessToken(access_token, access_token_secret);
+			Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+			
+			// Update status
+			ResponseList<twitter4j.Status> response = twitter.getHomeTimeline();
+
+			for (twitter4j.Status status : response) {
+				posts.add(new TwitterPost(status));
+				Log.v(TAG, status.getUser().getName());
+			}
+		
+			postAdapter.notifyDataSetChanged();
+			
+//			Log.d("Status", "> " + response.getText());
+		} catch (TwitterException e) {
+			// Error in updating status
+			Log.d("Twitter Update Error", e.getMessage());
+		}
+		
 	}
 
 	/**
@@ -398,7 +426,6 @@ public class TwitterFeedActivity extends Activity {
 				// Error in updating status
 				Log.d("Twitter Update Error", e.getMessage());
 			}
-			
 			
 			return null;
 		}
