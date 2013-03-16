@@ -1,12 +1,9 @@
 package edu.ucsb.cs176b.models;
 
 import java.util.List;
-
 import com.facebook.widget.ProfilePictureView;
-
 import edu.ucsb.cs176b.aggregator.R;
 import edu.ucsb.cs176b.tasks.DownloadImageTask;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +29,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		LinearLayout postView;
 		Post post = getItem(position);
 
+		// Inflate view
 		LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		postView = (LinearLayout) vi.inflate(resource, null);
 
@@ -41,7 +39,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			profilePictureView = (ProfilePictureView)postView.findViewById(R.id.profile_pic);			
 			profilePictureView.setCropped(true);			
 			profilePictureView.setProfileId(post.getUserId());
-
 			TextView countLikes = (TextView) postView.findViewById(R.id.count_likes);
 			countLikes.setText(post.getCountLikes() + "");
 
@@ -57,11 +54,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		ImageView post_picture = (ImageView) postView.findViewById(R.id.post_picture);
 		TextView postTitle = (TextView) postView.findViewById(R.id.post_title);
 		TextView postMessage = (TextView) postView.findViewById(R.id.post_message);
-		
 		TextView countComment = (TextView) postView.findViewById(R.id.count_comments);
 		TextView updatedTime = (TextView) postView.findViewById(R.id.updatedTime);
-
-
+		
 		postTitle.setText(post.getTitle());
 
 		if (post.getImageUrl() != null){

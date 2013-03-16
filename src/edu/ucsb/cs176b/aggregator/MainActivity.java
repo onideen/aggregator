@@ -1,9 +1,5 @@
 package edu.ucsb.cs176b.aggregator;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -58,7 +54,6 @@ public class MainActivity extends FragmentActivity {
 		
 		twitter = new Intent(this, TwitterFeedActivity.class);
 		
-		
 		for (int i = 0; i < fragments.length; i++) {
 			transaction.hide(fragments[i]);
 		}
@@ -103,18 +98,16 @@ public class MainActivity extends FragmentActivity {
 		Session session = Session.getActiveSession();
 
 		if (session != null && session.isOpened()) {
-			// if the session is already open, try to show the selection
-			// fragment
+			// if the session is already open, show FacebookFeedFragment
 			showFragment(FACEBOOK_FEED, false);
 		} else {
-			// otherwise present the splash screen and ask the user to login.
+			//present the splash screen and ask the user to login.
 			showFragment(SPLASH, false);
 		}
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		// only add the menu when the selection fragment is showing
 		if (fragments[SPLASH].isHidden()) {
 			if (menu.size() == 0) {
 				facebookFeed = menu.add(R.string.facebook_feed);
@@ -157,10 +150,6 @@ public class MainActivity extends FragmentActivity {
 			for (int i = 0; i < backStackSize; i++) {
 				manager.popBackStack();
 			}
-			// check for the OPENED state instead of session.isOpened() since
-			// for the
-			// OPENED_TOKEN_UPDATED state, the selection fragment should already
-			// be showing.
 			if (state.equals(SessionState.OPENED)) {
 				showFragment(FACEBOOK_FEED, false);
 			} else if (state.isClosed()) {
@@ -185,17 +174,4 @@ public class MainActivity extends FragmentActivity {
 		}
 		transaction.commit();
 	}
-	
-	/*protected void onNewIntent(Intent intent) { 
-	    super.onNewIntent(intent); 
-	    //get the retrieved data 
-	    Uri twitURI = intent.getData(); 
-	    //make sure the url is correct 
-	    if(twitURI!=null && twitURI.toString().startsWith(TwitterFeedFragment.TWIT_URL)) 
-	    { 
-	        //is verifcation - get the returned data 
-	        String oaVerifier = twitURI.getQueryParameter("oauth_verifier"); 
-	  
-	    } 
-	}*/
 }
