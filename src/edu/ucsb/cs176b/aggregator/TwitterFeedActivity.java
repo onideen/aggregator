@@ -170,6 +170,7 @@ public class TwitterFeedActivity extends Activity {
 		 * Verifier
 		 * */
 		
+		Log.v(TAG, "here");
 		if (!isTwitterLoggedInAlready()) {
 			Uri uri = getIntent().getData();
 			if (uri != null && uri.toString().startsWith(TWIT_URL)) {
@@ -195,7 +196,7 @@ public class TwitterFeedActivity extends Activity {
 					e.commit(); // save changes
 
 					Log.e("Twitter OAuth Token", "> " + accessToken.getToken());
-
+					Log.v(TAG, "JAUDA");
 					// Hide login button
 					btnLoginTwitter.setVisibility(View.GONE);
 
