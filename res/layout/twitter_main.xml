@@ -2,48 +2,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
-    android:background="@color/white">
-    
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
         <ImageView
             android:id="@+id/twitter_logo"
-            android:layout_width="20pt"
-            android:layout_height="20pt"
+            android:layout_width="40pt"
+            android:layout_height="40pt"
             android:layout_gravity="left"
             android:contentDescription="@string/twitter_logo"
             android:scaleType="fitXY"
             android:src="@drawable/twitter_logo" />
 
-    <!-- Twitter Login Button -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btnLoginTwitter"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login_twitter" />
+            <!-- Twitter Login Button -->
 
-    <!-- user name label -->
-    <!-- Tweet Button -->
+            <Button
+                android:id="@+id/btnLoginTwitter"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_twitter" />
 
-    <Button
-        android:id="@+id/btnRefresh"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/refresh"
-        android:visibility="gone" />
+            <!-- user name label -->
+            <!-- Tweet Button -->
 
-    <!-- Twitter Logout button -->
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/refresh"
+                android:visibility="gone" />
 
-    <Button
-        android:id="@+id/btnLogoutTwitter"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/logout_twitter"
-        android:visibility="gone" />
+            <!-- Twitter Logout button -->
+
+            <Button
+                android:id="@+id/btnLogoutTwitter"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/logout_twitter"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
 
     <ListView
         android:id="@+id/twit_post_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
-    
+
 </LinearLayout>
