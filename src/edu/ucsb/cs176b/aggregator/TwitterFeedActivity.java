@@ -64,9 +64,6 @@ public class TwitterFeedActivity extends Activity {
 	private ListView postList;
 
 	
-	// lbl update
-	private TextView lblUserName;
-
 	// Progress dialog
 	private ProgressDialog pDialog;
 
@@ -90,10 +87,7 @@ public class TwitterFeedActivity extends Activity {
 		setContentView(R.layout.twitter_main);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
-		
 		posts = new ArrayList<Post>();
-		
-
 		
 		cd = new ConnectionDetector(getApplicationContext());
 
@@ -118,7 +112,6 @@ public class TwitterFeedActivity extends Activity {
 		btnLoginTwitter = (Button) findViewById(R.id.btnLoginTwitter);
 		btnRefresh = (Button) findViewById(R.id.btnRefresh);
 		btnLogoutTwitter = (Button) findViewById(R.id.btnLogoutTwitter);
-		lblUserName = (TextView) findViewById(R.id.lblUserName);
 
 		postList = (ListView) findViewById(R.id.twit_post_list);
 		postAdapter = new PostAdapter(this, R.layout.list_twitter_post, posts);
@@ -336,8 +329,6 @@ public class TwitterFeedActivity extends Activity {
 		// You might not needed this code
 		btnLogoutTwitter.setVisibility(View.GONE);
 		btnRefresh.setVisibility(View.GONE);
-		lblUserName.setText("");
-		lblUserName.setVisibility(View.GONE);
 
 		btnLoginTwitter.setVisibility(View.VISIBLE);
 	}
@@ -372,7 +363,7 @@ public class TwitterFeedActivity extends Activity {
 			pDialog.setIndeterminate(false);
 			pDialog.setCancelable(false);
 			pDialog.show();
-			posts = new ArrayList<Post>();
+//			posts = new ArrayList<Post>();
 		}
 		
 		
@@ -418,7 +409,6 @@ public class TwitterFeedActivity extends Activity {
 			super.onPostExecute(result);
 			pDialog.dismiss();
 			postAdapter.notifyDataSetChanged();
-			Log.i(TAG, "JADAAAAAAAAA");
 		}
 	}
 
