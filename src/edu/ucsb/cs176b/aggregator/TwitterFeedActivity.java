@@ -3,12 +3,16 @@ package edu.ucsb.cs176b.aggregator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import twitter4j.Twitter; 
+import twitter4j.Twitter;
+import twitter4j.Status;
 import twitter4j.auth.RequestToken; 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences; 
+import twitter4j.ResponseList;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
@@ -25,6 +29,7 @@ import android.view.View;
 import android.widget.*;
 
 import edu.ucsb.cs176b.models.Post;
+import edu.ucsb.cs176b.models.TwitterPost;
 
 /**
  * Fragment that represents the feed for aggregation
@@ -136,7 +141,13 @@ public class TwitterFeedActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// Call update status function
-				getTwitterPosts();
+				try {
+					posts = new GetTwitterPosts().execute(twitter).get();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
 			}
 
 		});
@@ -193,7 +204,6 @@ public class TwitterFeedActivity extends Activity {
 			}
 		}
 		
-		getTwitterPosts();
 
 	}
 
@@ -362,4 +372,74 @@ public class TwitterFeedActivity extends Activity {
 		super.onResume();
 	}
 
+	
+	class GetTwitterPosts extends AsyncTask<Twitter, Void, ArrayList<Post>> {
+
+		
+		private ProgressDialog pDialog;
+		private List<Post> posts;
+		
+		/**
+		 * Before starting background thread Show Progress Dialog
+		 * */
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = new ProgressDialog(TwitterFeedActivity.this);
+			pDialog.setMessage("Getting twitter timeline");
+			pDialog.setIndeterminate(false);
+			pDialog.setCancelable(false);
+			pDialog.show();
+			posts = new ArrayList<Post>();
+		}
+		
+		
+		
+		@Override
+		protected ArrayList<Post> doInBackground(Twitter... twitters) {
+			
+			
+			try {
+				ConfigurationBuilder builder = new ConfigurationBuilder();
+				builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
+				builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
+				
+				// Access Token 
+				String access_token = twitterPreferences.getString(PREF_KEY_OAUTH_TOKEN, "");
+				// Access Token Secret
+				String access_token_secret = twitterPreferences.getString(PREF_KEY_OAUTH_SECRET, "");
+				
+				AccessToken accessToken = new AccessToken(access_token, access_token_secret);
+				Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+				
+				// Update status
+				ResponseList<twitter4j.Status> response = twitter.getHomeTimeline();
+
+				for (twitter4j.Status status : response) {
+					posts.add(new TwitterPost(status));
+				}
+				
+//				Log.d("Status", "> " + response.getText());
+			} catch (TwitterException e) {
+				// Error in updating status
+				Log.d("Twitter Update Error", e.getMessage());
+			}
+			
+			
+			
+			
+			return null;
+		}
+		
+		
+		@Override
+		protected void onPostExecute(ArrayList<Post> result) {
+			super.onPostExecute(result);
+			pDialog.dismiss();
+		}
+	}
+
+	
+	
+	
 }
