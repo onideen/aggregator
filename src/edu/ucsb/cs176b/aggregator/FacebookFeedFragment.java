@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-
 import org.json.JSONArray;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -20,20 +18,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.*;
-
 import com.facebook.*;
 import com.facebook.model.*;
-
 import edu.ucsb.cs176b.models.FaceBookPost;
 import edu.ucsb.cs176b.models.Post;
 import edu.ucsb.cs176b.models.PostAdapter;
-
-
-
-
-/**
- * Fragment that represents the feed for aggregation
- */
 
 
 public class FacebookFeedFragment extends Fragment {
@@ -46,6 +35,8 @@ public class FacebookFeedFragment extends Fragment {
 	private ListView postList;
 	private ProgressDialog progressDialog;
 	private UiLifecycleHelper uiHelper;
+	private AlertDialogManager alert = new AlertDialogManager();
+
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 		@Override
 		public void call(final Session session, final SessionState state, final Exception exception) {
@@ -72,16 +63,15 @@ public class FacebookFeedFragment extends Fragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.feed, container, false);
 
-		   Button refresh = (Button) view.findViewById(R.id.refresh);
-		    refresh.setOnClickListener(new OnClickListener() {
-		    	
-				
-				@Override
-				public void onClick(View v) {
-					makeFacebookFeedRequest(session);
-				}
-			});
-		
+		Button refresh = (Button) view.findViewById(R.id.refresh);
+		refresh.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				makeFacebookFeedRequest(session);
+			}
+		});
+
 		postList = (ListView) view.findViewById(R.id.post_list);
 		posts = new ArrayList<Post>();
 		postAdapter = new PostAdapter(getActivity(), R.layout.list_post, posts);
@@ -125,20 +115,11 @@ public class FacebookFeedFragment extends Fragment {
 
 	private void makeFacebookFeedRequest(final Session session) {
 		// Show a progress dialog because sometimes the requests can take a while.
-		
+
 		if(isOnline()== false){
-			
-			AlertDialog ad = new AlertDialog.Builder(getActivity()).create();  
-			ad.setCancelable(false); // This blocks the 'BACK' button  
-			ad.setMessage("Check your internet connection");  
-			ad.setButton("OK", new DialogInterface.OnClickListener() {  
-			    @Override  
-			    public void onClick(DialogInterface dialog, int which) {  
-			        dialog.dismiss();                      
-			    }  
-			});  
-			ad.show();
-			
+			//check for working Internet connection.
+			alert.showAlertDialog(getActivity(), "Internet Connection Error", "Please connect to working Internet connection", false);
+			return;
 		}
 		progressDialog = ProgressDialog.show(getActivity(), "", getActivity().getResources().getString(R.string.progress_dialog_text), true);
 
@@ -179,21 +160,19 @@ public class FacebookFeedFragment extends Fragment {
 		});
 		request.executeAsync();
 	}
-	
-	 public static boolean isOnline() {
-         try {
-             InetAddress.getByName("google.ca").isReachable(3);
-             return true;
-         } catch (UnknownHostException e){
-             return false;
-         } catch (IOException e){
-             return false;
-         }
-     }
 
-	/**
-	 * Resets the view to the initial defaults.
-	 */
+	public static boolean isOnline() {
+		try {
+			InetAddress.getByName("google.ca").isReachable(3);
+			return true;
+		} catch (UnknownHostException e){
+			return false;
+		} catch (IOException e){
+			return false;
+		}
+	}
+
+	//Reset the view to the initial defaults.
 	private void init(Bundle savedInstanceState) {
 
 		Session session = Session.getActiveSession();
@@ -238,35 +217,16 @@ public class FacebookFeedFragment extends Fragment {
 					}
 				};
 				break;
-
-			case SERVER:
-			case THROTTLING:
-				// this is usually temporary, don't clear the fields, and
-				// ask the user to try again
-				dialogBody = getString(R.string.error_server);
-				break;
-
-			case BAD_REQUEST:
-				// this is likely a coding error, ask the user to file a bug
-				dialogBody = getString(R.string.error_bad_request, error.getErrorMessage());
-				break;
-
-			case OTHER:
-			case CLIENT:
 			default:
-				// an unknown issue occurred, this could be a code error, or
-				// a server side issue, log the issue, and either ask the
-				// user to retry, or file a bug
-				//dialogBody = getString(R.string.error_unknown, error.getErrorMessage());
 				break;
 			}
 		}
 		if(dialogBody!=null){
-		new AlertDialog.Builder(getActivity())
-		.setPositiveButton(R.string.error_dialog_button_text, listener)
-		.setTitle(R.string.error_dialog_title)
-		.setMessage(dialogBody)
-		.show();
+			new AlertDialog.Builder(getActivity())
+			.setPositiveButton(R.string.error_dialog_button_text, listener)
+			.setTitle(R.string.error_dialog_title)
+			.setMessage(dialogBody)
+			.show();
 		}
 	}
 }
