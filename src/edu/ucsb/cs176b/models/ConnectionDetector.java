@@ -1,4 +1,4 @@
-package edu.ucsb.cs176b.aggregator;
+package edu.ucsb.cs176b.models;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

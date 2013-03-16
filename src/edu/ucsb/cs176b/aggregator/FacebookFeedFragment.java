@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.facebook.*;
 import com.facebook.model.*;
+
+import edu.ucsb.cs176b.models.AlertDialogManager;
 import edu.ucsb.cs176b.models.FaceBookPost;
 import edu.ucsb.cs176b.models.Post;
 import edu.ucsb.cs176b.models.PostAdapter;

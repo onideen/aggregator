@@ -25,6 +25,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
+import edu.ucsb.cs176b.models.AlertDialogManager;
+import edu.ucsb.cs176b.models.ConnectionDetector;
 import edu.ucsb.cs176b.models.Post;
 import edu.ucsb.cs176b.models.PostAdapter;
 import edu.ucsb.cs176b.models.TwitterPost;
@@ -148,12 +150,11 @@ public class TwitterFeedActivity extends Activity {
 					e.putString(PREF_KEY_OAUTH_TOKEN, accessToken.getToken());
 					e.putString(PREF_KEY_OAUTH_SECRET,
 							accessToken.getTokenSecret());
+
 					// Store login status - true
 					e.putBoolean(PREF_KEY_TWITTER_LOGIN, true);
 					e.commit(); // save changes
 
-					Log.e(TAG, "Twitter OAuth Token >" + accessToken.getToken());
-					
 				} catch (Exception e) {
 					// Check log for login errors
 					Log.e(TAG, "Twitter Login Error");
@@ -166,6 +167,7 @@ public class TwitterFeedActivity extends Activity {
 			// Show Update Twitter
 			btnRefresh.setVisibility(View.VISIBLE);
 			btnLogoutTwitter.setVisibility(View.VISIBLE);
+			
 			new GetTwitterPosts().execute(twitter);
 		}
 	}
