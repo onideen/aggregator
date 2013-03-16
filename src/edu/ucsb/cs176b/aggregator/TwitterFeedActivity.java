@@ -99,14 +99,6 @@ public class TwitterFeedActivity extends Activity {
 			// stop executing code by return
 			return;
 		}
-		
-		// Check if twitter keys are set
-		if(TWITTER_CONSUMER_KEY.trim().length() == 0 || TWITTER_CONSUMER_SECRET.trim().length() == 0){
-			// Internet Connection is not present
-			alert.showAlertDialog(TwitterFeedActivity.this, "Twitter oAuth tokens", "Please set your twitter oauth tokens first!", false);
-			// stop executing code by return
-			return;
-		}
 
 		// All UI elements
 		btnLoginTwitter = (Button) findViewById(R.id.btnLoginTwitter);
@@ -238,39 +230,6 @@ public class TwitterFeedActivity extends Activity {
 		}
 	}
 	
-	
-	public void getTwitterPosts() {
-		try {
-			ConfigurationBuilder builder = new ConfigurationBuilder();
-			builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
-			builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
-			
-			// Access Token 
-			String access_token = twitterPreferences.getString(PREF_KEY_OAUTH_TOKEN, "");
-			// Access Token Secret
-			String access_token_secret = twitterPreferences.getString(PREF_KEY_OAUTH_SECRET, "");
-			
-			AccessToken accessToken = new AccessToken(access_token, access_token_secret);
-			Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
-			
-			// Update status
-			ResponseList<twitter4j.Status> response = twitter.getHomeTimeline();
-
-			for (twitter4j.Status status : response) {
-				posts.add(new TwitterPost(status));
-				Log.v(TAG, status.getUser().getName());
-			}
-		
-			postAdapter.notifyDataSetChanged();
-			
-//			Log.d("Status", "> " + response.getText());
-		} catch (TwitterException e) {
-			// Error in updating status
-			Log.d("Twitter Update Error", e.getMessage());
-		}
-		
-	}
-
 	/**
 	 * Function to update status
 	 * */

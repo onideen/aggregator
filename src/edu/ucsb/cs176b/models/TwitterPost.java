@@ -1,6 +1,7 @@
 package edu.ucsb.cs176b.models;
 
 import android.util.Log;
+import twitter4j.MediaEntity;
 import twitter4j.Status;
 
 public class TwitterPost extends Post {
@@ -25,7 +26,8 @@ public class TwitterPost extends Post {
 		setCountCommet(status.getRetweetCount());
 		if(status.getMediaEntities() != null) {
 			if (status.getMediaEntities().length > 0 ){
-				Log.i(TAG, status.getMediaEntities().toString());				
+				MediaEntity[] mediaEntities = status.getMediaEntities();
+				setImageUrl(mediaEntities[0].getMediaURL());				
 			}
 			
 //			setImageUrl(status.getMediaEntities()[0].);
