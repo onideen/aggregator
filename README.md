@@ -37,7 +37,7 @@ If you chose Twitter in the fist screen, you will be directed to the same Twitte
 3.Problems  
 
 3.1. Connection between Facebook and Twitter   
-We used fragments on the Facebook part. This approach was not possible on the Twitter API, and we had to use activities.   
+We used fragments on the Facebook part. This approach was not possible on the Twitter API, where we used activities.   
 
 3.2. Twitter Login  
 Struggled with this for a couple of days.   
