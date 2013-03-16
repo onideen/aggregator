@@ -14,12 +14,12 @@ Table of content
 1.Program description  
 
 The applications gives you a read only view of your Facebook wall and your Twitter news feed. 
-You can navigate between twitter and Facebook by clicking the settings button and then chose Facebook or twitter.   
+You can navigate between Twitter and Facebook by clicking the settings button and then chose Facebook or Twitter.   
 
-facebook:  
+Facebook:  
 The displayed posts are limited to status update and single picture posts.   
 
-Twitter: 
+Twitter:   
 All tweets from your news feed will be displayed. 
 
 ---------------------------------------
@@ -30,8 +30,8 @@ If no internet, you will get an error displayed on your screen telling you to co
 
 2.2. Login  
 On your first screen you can chose to log in to either Facebook or Twitter.   
-If you chose Facebook, you go through the login process and your Facebook wall will then be displayed. If you press the settings button you can then chose to go back to the settings page and log out of Facebook, or you can direct to your twitter feed. Here a Twitter Login button will be displayed.   
-If you chose Twitter in the fist screen, you will be directed to the same Twitter feed as in the approach above. By clicking the Twitter Login button you will be directed through twitter login and then be directed back to the Twitter feed.   
+If you chose Facebook, you go through the login process and your Facebook wall will then be displayed. If you press the settings button you can then chose to go back to the settings page and log out of Facebook, or you can direct to your Twitter feed. Here a Twitter Login button will be displayed.   
+If you chose Twitter in the fist screen, you will be directed to the same Twitter feed as in the approach above. By clicking the Twitter Login button you will be directed through Twitter login and then be directed back to the Twitter feed.   
 
 ---------------------------------------
 3.Problems  
