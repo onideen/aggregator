@@ -1,23 +1,11 @@
 package edu.ucsb.cs176b.models;
 
-import android.util.Log;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 
 public class TwitterPost extends Post {
 
-	private final static String TAG = "TwitterPost";
-	
 	public TwitterPost(Status status) {
-
-		
-//		Log.v(TAG, status.getUser().getName());
-//		Log.v(TAG, status.getText());
-//		Log.v(TAG, status.getRetweetCount() + "");
-//		Log.v(TAG, status.getUser().getMiniProfileImageURL());
-//		Log.v(TAG, status.getCreatedAt().toGMTString());
-//		
-		
 		
 		setTitle(status.getUser().getName());
 		setMessage(status.getText());
@@ -29,12 +17,9 @@ public class TwitterPost extends Post {
 				MediaEntity[] mediaEntities = status.getMediaEntities();
 				setImageUrl(mediaEntities[0].getMediaURL());				
 			}
-			
-//			setImageUrl(status.getMediaEntities()[0].);
 		}
-		
 		setProfilePictureUrl(status.getUser().getBiggerProfileImageURL());
-		setUpdatedTime(status.getCreatedAt().toGMTString());
+		setUpdatedTime(status.getCreatedAt().toString());
 		
 	}
 
