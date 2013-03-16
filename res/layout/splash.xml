@@ -69,8 +69,8 @@
             android:gravity="center"
             android:scaleType="fitXY"
             android:text="@string/bird"
-            android:contentDescription="@string/bird" />
-            android:src="@drawable/images"
+            android:contentDescription="@string/bird" 
+            android:src="@drawable/images" />
         
     </LinearLayout>
     
