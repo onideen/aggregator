@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.*;
 
 import edu.ucsb.cs176b.models.Post;
+import edu.ucsb.cs176b.models.PostAdapter;
 import edu.ucsb.cs176b.models.TwitterPost;
 
 /**
@@ -58,6 +59,10 @@ public class TwitterFeedActivity extends Activity {
 	private Button btnLoginTwitter;
 	private Button btnRefresh;
 	private Button btnLogoutTwitter;
+
+	private PostAdapter postAdapter;
+	private ListView postList;
+
 	
 	// lbl update
 	private TextView lblUserName;
@@ -86,10 +91,9 @@ public class TwitterFeedActivity extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		
-		
 		posts = new ArrayList<Post>();
 		
-		
+
 		
 		cd = new ConnectionDetector(getApplicationContext());
 
@@ -115,6 +119,10 @@ public class TwitterFeedActivity extends Activity {
 		btnRefresh = (Button) findViewById(R.id.btnRefresh);
 		btnLogoutTwitter = (Button) findViewById(R.id.btnLogoutTwitter);
 		lblUserName = (TextView) findViewById(R.id.lblUserName);
+
+		postList = (ListView) findViewById(R.id.twit_post_list);
+		postAdapter = new PostAdapter(this, R.layout.list_twitter_post, posts);
+		postList.setAdapter(postAdapter);
 
 		// Shared Preferences
 		twitterPreferences = getApplicationContext().getSharedPreferences(
@@ -205,31 +213,6 @@ public class TwitterFeedActivity extends Activity {
 		}
 		
 
-	}
-
-	private void getTwitterPosts() {
-		posts = new ArrayList<Post>();
-		
-		try {
-			ConfigurationBuilder builder = new ConfigurationBuilder();
-			builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
-			builder.setOAuthConsumerSecret(TWITTER_CONSUMER_SECRET);
-			
-			// Access Token 
-			String access_token = twitterPreferences.getString(PREF_KEY_OAUTH_TOKEN, "");
-			// Access Token Secret
-			String access_token_secret = twitterPreferences.getString(PREF_KEY_OAUTH_SECRET, "");
-			
-			AccessToken accessToken = new AccessToken(access_token, access_token_secret);
-			Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
-			
-			// Update status
-			twitter.getHomeTimeline();
-		} catch (TwitterException e) {
-			// Error in updating status
-			Log.d(TAG, e.getMessage());
-		}
-		
 	}
 
 	/**
@@ -377,7 +360,6 @@ public class TwitterFeedActivity extends Activity {
 
 		
 		private ProgressDialog pDialog;
-		private List<Post> posts;
 		
 		/**
 		 * Before starting background thread Show Progress Dialog
@@ -398,7 +380,7 @@ public class TwitterFeedActivity extends Activity {
 		@Override
 		protected ArrayList<Post> doInBackground(Twitter... twitters) {
 			
-			
+		
 			try {
 				ConfigurationBuilder builder = new ConfigurationBuilder();
 				builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
@@ -417,6 +399,7 @@ public class TwitterFeedActivity extends Activity {
 
 				for (twitter4j.Status status : response) {
 					posts.add(new TwitterPost(status));
+					Log.v(TAG, status.getUser().getName());
 				}
 				
 //				Log.d("Status", "> " + response.getText());
@@ -424,8 +407,6 @@ public class TwitterFeedActivity extends Activity {
 				// Error in updating status
 				Log.d("Twitter Update Error", e.getMessage());
 			}
-			
-			
 			
 			
 			return null;
@@ -436,6 +417,8 @@ public class TwitterFeedActivity extends Activity {
 		protected void onPostExecute(ArrayList<Post> result) {
 			super.onPostExecute(result);
 			pDialog.dismiss();
+			postAdapter.notifyDataSetChanged();
+			Log.i(TAG, "JADAAAAAAAAA");
 		}
 	}
 

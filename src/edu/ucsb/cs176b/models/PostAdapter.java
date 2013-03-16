@@ -43,7 +43,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		//		else {
 		//			postView = (LinearLayout) convertView;
 		//		}
-//		// FInd all elements in view
+		// FInd all elements in view
 		if (post instanceof FaceBookPost) {
 			ProfilePictureView profilePictureView = null;
 			profilePictureView = (ProfilePictureView)postView.findViewById(R.id.profile_pic);			
