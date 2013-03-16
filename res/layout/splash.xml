@@ -59,7 +59,6 @@
             android:layout_marginBottom="30dp"
             android:layout_marginTop="30dp" />
 
-        
        <ImageButton
             android:id="@+id/images"
             android:layout_width="40pt"
@@ -73,6 +72,4 @@
             android:src="@drawable/images" />
         
     </LinearLayout>
-    
-
 </ScrollView>

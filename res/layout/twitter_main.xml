@@ -24,16 +24,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <!-- Twitter Login Button -->
-
             <Button
                 android:id="@+id/btnLoginTwitter"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/login_twitter" />
-
-            <!-- user name label -->
-            <!-- Tweet Button -->
 
             <Button
                 android:id="@+id/btnRefresh"
@@ -41,8 +36,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/refresh"
                 android:visibility="gone" />
-
-            <!-- Twitter Logout button -->
 
             <Button
                 android:id="@+id/btnLogoutTwitter"
@@ -57,5 +50,4 @@
         android:id="@+id/twit_post_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
-
 </LinearLayout>

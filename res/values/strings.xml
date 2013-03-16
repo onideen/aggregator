@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <string name="app_name">Aggregator</string>
     <string name="app_id">133312576839682</string>
     <string name="get_started">To get started, login to Facebook or Twitter</string>
-    <string name="login">Login</string>
-     <string name="twitter_login">Login Twitter</string>
+    <string name="twitter_login">Login Twitter</string>
     <string name="facebook_feed">Facebook</string>
     <string name="twitter_feed">Twitter</string>
     <string name="settings">Settings</string>
@@ -22,16 +21,17 @@
     <string name="error_bad_request">An error occurred, please contact the developer with the following message: %1$s</string>
     <string name="error_unknown">An unknown error occurred, please contact the developer with the following message: %1$s</string>
     <string name="like_image">Likes:</string>
-	<string name="post_picture">Image can not be displayed</string>
-	<string name="comment_img">Comments:</string>
-	<string name="please_wait" tools:ignore="TypographyEllipsis">Please wait...</string>
-	<string name="updating_timeline">Updating timeline</string>
-	<string name="refresh">Refresh</string>
-	<string name="profilePicture">Profile Picture</string>
-	<string name="retweets">Retweets</string>
-	<string name="icon">Logo</string>
-	<string name="bird">Twitter Login</string>
-	<string name="twitter_logo">Logo</string>
-	<string name="logout_twitter">Logout from Twitter</string>
-	<string name="login_twitter">Twitter Login</string>
+    <string name="post_picture">Image can not be displayed</string>
+    <string name="comment_img">Comments:</string>
+    <string name="please_wait" tools:ignore="TypographyEllipsis">Please wait...</string>
+    <string name="updating_timeline">Updating timeline</string>
+    <string name="refresh">Refresh</string>
+    <string name="profilePicture">Profile Picture</string>
+    <string name="retweets">Retweets</string>
+    <string name="icon">Logo</string>
+    <string name="bird">Twitter Login</string>
+    <string name="twitter_logo">Logo</string>
+    <string name="logout_twitter">Logout from Twitter</string>
+    <string name="login_twitter">Twitter Login</string>
+
 </resources>

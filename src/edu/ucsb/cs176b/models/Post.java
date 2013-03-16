@@ -8,13 +8,12 @@ public abstract class Post {
 	private String updatedTime;
 	private String imageUrl = null;
 	private long countComment;
-
-
 	private String profilePictureUrl = null;
 
 	protected void setUserId(String userId){
 		this.userId = userId;
 	}
+	
 	public String getUserId(){
 		return userId;
 	}
@@ -22,14 +21,15 @@ public abstract class Post {
 	protected void setTitle(String title){
 		this.title = title;
 	}
+	
 	public String getTitle(){
 		return title;
 	}
 	
 	protected void setMessage(String message){
 		this.message = message;
-		
 	}
+	
 	public String getMessage(){
 		return message;
 	}
