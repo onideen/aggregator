@@ -242,7 +242,6 @@ public class TwitterFeedActivity extends Activity {
 		
 		@Override
 		protected ArrayList<Post> doInBackground(Twitter... twitters) {
-			
 		
 			try {
 				ConfigurationBuilder builder = new ConfigurationBuilder();

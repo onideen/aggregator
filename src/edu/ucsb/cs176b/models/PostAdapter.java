@@ -32,7 +32,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 		// Inflate view
 		LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		postView = (LinearLayout) vi.inflate(resource, null);
-	
+
 		// Find all elements in view
 		if (post instanceof FaceBookPost) {
 			ProfilePictureView profilePictureView = null;
