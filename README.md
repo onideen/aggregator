@@ -1,4 +1,3 @@
--------------
 README
 =======
 Table of content
@@ -19,7 +18,9 @@ You can navigate between twitter and Facebook by clicking the settings button an
 
 facebook:  
 The displayed posts are limited to status update and single picture posts.   
-Twitter:  
+
+Twitter: 
+All tweets from your news feed will be displayed. 
 
 ---------------------------------------
 2.Specifications  
